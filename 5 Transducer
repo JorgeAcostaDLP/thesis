@@ -1,0 +1,101 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Nov  3 01:41:05 2018
+
+@author: jorgeacostadelape
+"""
+import os
+
+melody = os.listdir('Melody')
+melody.sort()
+
+chords = os.listdir('Chords1')
+chords.sort()
+
+melset1 = melody[1:11]
+melset2 = melody[11:21]
+melset3 = melody[21:31]
+melset4 = melody[31:41]
+melset5  = melody[41:51]
+melset6 = melody[51:61]
+melset7 = melody[61:71]
+melset8 = melody[71:81]
+melset9 = melody[81:91] 
+melset10 = melody[91:101]
+melset11 = melody[101:111]
+melset12 = melody[111:121]
+melset13 = melody[121:131]
+melset14 = melody[131:141]
+melset15  = melody[141:151]
+melset16 = melody[151:161]
+melset17 = melody[161:171] 
+melset18 = melody[171:181]
+melset19 = melody[181:191] 
+melset20 = melody[191:201]
+
+ichordset1 = chords[1:11]
+ichordset2 = chords[11:21]
+ichordset3 = chords[21:31]
+ichordset4 = chords[31:41]
+ichordset5 = chords[41:51]
+ichordset6 = chords[51:61]
+ichordset7 = chords[61:71]
+ichordset8 = chords[71:81]
+ichordset9 = chords[81:91]
+ichordset10 = chords[91:101]
+ichordset11 = chords[101:111]
+ichordset12 = chords[111:121]
+ichordset13 = chords[121:131]
+ichordset14 = chords[131:141]
+ichordset15 = chords[141:151]
+ichordset16 = chords[151:161]
+ichordset17 = chords[161:171]
+ichordset18 = chords[171:181]
+ichordset19 = chords[181:191]
+ichordset20 = chords[191:201]
+
+[iset1notes,iset1pairs,iglobalpairs] = liweights(melset1,ichordset1)
+[iset2notes,iset2pairs,iglobalpairs] = liweights(melset2,ichordset2)
+[iset3notes,iset3pairs,iglobalpairs] = liweights(melset3,ichordset3)
+[iset4notes,iset4pairs,iglobalpairs] = liweights(melset4,ichordset4)
+[iset5notes,iset5pairs,iglobalpairs] = liweights(melset5,ichordset5)
+[iset6notes,iset6pairs,iglobalpairs] = liweights(melset6,ichordset6)
+[iset7notes,iset7pairs,iglobalpairs] = liweights(melset7,ichordset7) 
+[iset8notes,iset8pairs,iglobalpairs] = liweights(melset8,ichordset8)
+[iset9notes,iset9pairs,iglobalpairs] = liweights(melset9,ichordset9)
+[iset10notes,iset10pairs,iglobalpairs] = liweights(melset10,ichordset10)
+[iset11notes,iset11pairs,iglobalpairs] = liweights(melset11,ichordset11)
+[iset12notes,iset12pairs,iglobalpairs] = liweights(melset12,ichordset12)
+[iset13notes,iset13pairs,iglobalpairs] = liweights(melset13,ichordset13)
+[iset14notes,iset14pairs,iglobalpairs] = liweights(melset14,ichordset14)
+[iset15notes,iset15pairs,iglobalpairs] = liweights(melset15,ichordset15)
+[iset16notes,iset16pairs,iglobalpairs] = liweights(melset16,ichordset16)
+[iset17notes,iset17pairs,iglobalpairs] = liweights(melset17,ichordset17)
+[iset18notes,iset18pairs,iglobalpairs] = liweights(melset18,ichordset18)
+[iset19notes,iset19pairs,iglobalpairs] = liweights(melset19,ichordset19)
+[iset20notes,iset20pairs,iglobalpairs] = liweights(melset20,ichordset20)
+#
+[iset1bigrams,iglobalpairs] = ibigramcount(melset1,ichordset1)
+[iset2bigrams,iglobalpairs] = ibigramcount(melset2,ichordset2)
+[iset3bigrams,iglobalpairs] = ibigramcount(melset3,ichordset3)
+[iset4bigrams,iglobalpairs] = ibigramcount(melset4,ichordset4)
+[iset5bigrams,iglobalpairs] = ibigramcount(melset5,ichordset5)
+
+[iset6bigrams,iglobalpairs] = ibigramcount(melset6,ichordset6)
+[iset7bigrams,iglobalpairs] = ibigramcount(melset7,ichordset7)
+[iset8bigrams,iglobalpairs] = ibigramcount(melset8,ichordset8)
+[iset9bigrams,iglobalpairs] = ibigramcount(melset9,ichordset9)
+[iset10bigrams,iglobalpairs] = ibigramcount(melset10,ichordset10)
+
+[iset11bigrams,iglobalpairs] = ibigramcount(melset11,ichordset11)
+[iset12bigrams,iglobalpairs] = ibigramcount(melset12,ichordset12)
+[iset13bigrams,iglobalpairs] = ibigramcount(melset13,ichordset13)
+[iset14bigrams,iglobalpairs] = ibigramcount(melset14,ichordset14)
+[iset15bigrams,iglobalpairs] = ibigramcount(melset15,ichordset15)
+
+[iset16bigrams,iglobalpairs] = ibigramcount(melset16,ichordset16)
+[iset17bigrams,iglobalpairs] = ibigramcount(melset17,ichordset17)
+[iset18bigrams,iglobalpairs] = ibigramcount(melset18,ichordset18)
+[iset19bigrams,iglobalpairs] = ibigramcount(melset19,ichordset19)
+[iset20bigrams,iglobalpairs] = ibigramcount(melset20,ichordset20)

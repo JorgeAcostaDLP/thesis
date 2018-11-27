@@ -1,0 +1,945 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Nov  3 01:36:31 2018
+
+@author: jorgeacostadelape
+"""
+
+def countIpairs(notes,notechords):
+    pairs = ['arc0I', 'arc0sI', 'arc0II', 'arc0bIII', 'arc0III', 'arc0IV', 'arc0sIV', 'arc0V', 'arc0bVI', 'arc0VI', 'arc0bVII', 'arc0VII', 'arc1I', 'arc1sI', 'arc1II', 'arc1bIII', 'arc1III', 'arc1IV', 'arc1sIV', 'arc1V', 'arc1bVI', 'arc1VI', 'arc1bVII', 'arc1VII', 'arc2I', 'arc2sI', 'arc2II', 'arc2bIII', 'arc2III', 'arc2IV', 'arc2sIV', 'arc2V', 'arc2bVI', 'arc2VI', 'arc2bVII', 'arc2VII', 'arc3I', 'arc3sI', 'arc3II', 'arc3bIII', 'arc3III', 'arc3IV', 'arc3sIV', 'arc3V', 'arc3bVI', 'arc3VI', 'arc3bVII', 'arc3VII', 'arc4I', 'arc4sI', 'arc4II', 'arc4bIII', 'arc4III', 'arc4IV', 'arc4sIV', 'arc4V', 'arc4bVI', 'arc4VI', 'arc4bVII', 'arc4VII', 'arc5I', 'arc5sI', 'arc5II', 'arc5bIII', 'arc5III', 'arc5IV', 'arc5sIV', 'arc5V', 'arc5bVI', 'arc5VI', 'arc5bVII', 'arc5VII', 'arc6I', 'arc6sI', 'arc6II', 'arc6bIII', 'arc6III', 'arc6IV', 'arc6sIV', 'arc6V', 'arc6bVI', 'arc6VI', 'arc6bVII', 'arc6VII', 'arc7I', 'arc7sI', 'arc7II', 'arc7bIII', 'arc7III', 'arc7IV', 'arc7sIV', 'arc7V', 'arc7bVI', 'arc7VI', 'arc7bVII', 'arc7VII', 'arc8I', 'arc8sI', 'arc8II', 'arc8bIII', 'arc8III', 'arc8IV', 'arc8sIV', 'arc8V', 'arc8bVI', 'arc8VI', 'arc8bVII', 'arc8VII', 'arc9I', 'arc9sI', 'arc9II', 'arc9bIII', 'arc9III', 'arc9IV', 'arc9sIV', 'arc9V', 'arc9bVI', 'arc9VI', 'arc9bVII', 'arc9VII', 'arc10I', 'arc10sI', 'arc10II', 'arc10bIII', 'arc10III', 'arc10IV', 'arc10sIV', 'arc10V', 'arc10bVI', 'arc10VI', 'arc10bVII', 'arc10VII', 'arc11I', 'arc11sI', 'arc11II', 'arc11bIII', 'arc11III', 'arc11IV', 'arc11sIV', 'arc11V', 'arc11bVI', 'arc11VI', 'arc11bVII', 'arc11VII', 'arc0i', 'arc0si', 'arc0ii', 'arc0biii', 'arc0iii', 'arc0iv', 'arc0siv', 'arc0v', 'arc0bvi', 'arc0vi', 'arc0bvii', 'arc0vii', 'arc1i', 'arc1si', 'arc1ii', 'arc1biii', 'arc1iii', 'arc1iv', 'arc1siv', 'arc1v', 'arc1bvi', 'arc1vi', 'arc1bvii', 'arc1vii', 'arc2i', 'arc2si', 'arc2ii', 'arc2biii', 'arc2iii', 'arc2iv', 'arc2siv', 'arc2v', 'arc2bvi', 'arc2vi', 'arc2bvii', 'arc2vii', 'arc3i', 'arc3si', 'arc3ii', 'arc3biii', 'arc3iii', 'arc3iv', 'arc3siv', 'arc3v', 'arc3bvi', 'arc3vi', 'arc3bvii', 'arc3vii', 'arc4i', 'arc4si', 'arc4ii', 'arc4biii', 'arc4iii', 'arc4iv', 'arc4siv', 'arc4v', 'arc4bvi', 'arc4vi', 'arc4bvii', 'arc4vii', 'arc5i', 'arc5si', 'arc5ii', 'arc5biii', 'arc5iii', 'arc5iv', 'arc5siv', 'arc5v', 'arc5bvi', 'arc5vi', 'arc5bvii', 'arc5vii', 'arc6i', 'arc6si', 'arc6ii', 'arc6biii', 'arc6iii', 'arc6iv', 'arc6siv', 'arc6v', 'arc6bvi', 'arc6vi', 'arc6bvii', 'arc6vii', 'arc7i', 'arc7si', 'arc7ii', 'arc7biii', 'arc7iii', 'arc7iv', 'arc7siv', 'arc7v', 'arc7bvi', 'arc7vi', 'arc7bvii', 'arc7vii', 'arc8i', 'arc8si', 'arc8ii', 'arc8biii', 'arc8iii', 'arc8iv', 'arc8siv', 'arc8v', 'arc8bvi', 'arc8vi', 'arc8bvii', 'arc8vii', 'arc9i', 'arc9si', 'arc9ii', 'arc9biii', 'arc9iii', 'arc9iv', 'arc9siv', 'arc9v', 'arc9bvi', 'arc9vi', 'arc9bvii', 'arc9vii', 'arc10i', 'arc10si', 'arc10ii', 'arc10biii', 'arc10iii', 'arc10iv', 'arc10siv', 'arc10v', 'arc10bvi', 'arc10vi', 'arc10bvii', 'arc10vii', 'arc11i', 'arc11si', 'arc11ii', 'arc11biii', 'arc11iii', 'arc11iv', 'arc11siv', 'arc11v', 'arc11bvi', 'arc11vi', 'arc11bvii', 'arc11vii', 'arc0io', 'arc0sio', 'arc0iio', 'arc0biiio', 'arc0iiio', 'arc0ivo', 'arc0sivo', 'arc0vo', 'arc0bvio', 'arc0vio', 'arc0bviio', 'arc0viio', 'arc1io', 'arc1sio', 'arc1iio', 'arc1biiio', 'arc1iiio', 'arc1ivo', 'arc1sivo', 'arc1vo', 'arc1bvio', 'arc1vio', 'arc1bviio', 'arc1viio', 'arc2io', 'arc2sio', 'arc2iio', 'arc2biiio', 'arc2iiio', 'arc2ivo', 'arc2sivo', 'arc2vo', 'arc2bvio', 'arc2vio', 'arc2bviio', 'arc2viio', 'arc3io', 'arc3sio', 'arc3iio', 'arc3biiio', 'arc3iiio', 'arc3ivo', 'arc3sivo', 'arc3vo', 'arc3bvio', 'arc3vio', 'arc3bviio', 'arc3viio', 'arc4io', 'arc4sio', 'arc4iio', 'arc4biiio', 'arc4iiio', 'arc4ivo', 'arc4sivo', 'arc4vo', 'arc4bvio', 'arc4vio', 'arc4bviio', 'arc4viio', 'arc5io', 'arc5sio', 'arc5iio', 'arc5biiio', 'arc5iiio', 'arc5ivo', 'arc5sivo', 'arc5vo', 'arc5bvio', 'arc5vio', 'arc5bviio', 'arc5viio', 'arc6io', 'arc6sio', 'arc6iio', 'arc6biiio', 'arc6iiio', 'arc6ivo', 'arc6sivo', 'arc6vo', 'arc6bvio', 'arc6vio', 'arc6bviio', 'arc6viio', 'arc7io', 'arc7sio', 'arc7iio','arc7biiio', 'arc7iiio', 'arc7ivo', 'arc7sivo', 'arc7vo', 'arc7bvio', 'arc7vio', 'arc7bviio', 'arc7viio', 'arc8io', 'arc8sio', 'arc8iio', 'arc8biiio', 'arc8iiio', 'arc8ivo', 'arc8sivo', 'arc8vo', 'arc8bvio', 'arc8vio', 'arc8bviio', 'arc8viio', 'arc9io', 'arc9sio', 'arc9iio', 'arc9biiio', 'arc9iiio', 'arc9ivo', 'arc9sivo', 'arc9vo','arc9bvio','arc9vio','arc9bviio','arc9viio','arc10io','arc10sio','arc10iio','arc10biiio','arc10iiio','arc10ivo','arc10sivo','arc10vo','arc10bvio','arc10vio','arc10bviio', 'arc10viio', 'arc11io', 'arc11sio', 'arc11iio', 'arc11biiio', 'arc11iiio', 'arc11ivo', 'arc11sivo', 'arc11vo', 'arc11bvio', 'arc11vio', 'arc11bviio', 'arc11viio']
+    counter = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+    for c in range(len(notes)):
+    #MAJORS
+        if notes[c] == '0' and (notechords[c] == 'I' or notechords[c]=='I6' or  notechords[c]=='I64' or  notechords[c]=='I7' or  notechords[c]=='Id9' or notechords[c]=='Id7' or notechords[c]=='V/IV' or notechords[c]=='V42/IV' or notechords[c]=='V43/IV' or notechords[c]=='V65/IV' or notechords[c]=='V7/IV'):
+            counter[0] += 1
+        if notes[c] == '0' and (notechords[c] == 'I#' or notechords[c] == 'I#9' or notechords[c] == 'bII' or notechords[c] == 'bII7'):
+            counter[1] += 1            
+        if notes[c] == '0' and (notechords[c] == 'II' or notechords[c] == 'II6' or notechords[c] == 'II65' or notechords[c] == 'II7' or notechords[c] == 'IId7' or notechords[c] == 'IV/vi' or notechords[c] == 'V6/V' or notechords[c] == 'V6/v' or notechords[c] == 'V65/V' or notechords[c] == 'V7/V'):
+            counter[2] += 1                
+        if notes[c] == '0' and (notechords[c] == 'bIII' or notechords[c] == 'V/bVI' or notechords[c] == 'bIII6' or notechords[c] == 'bIII64' or notechords[c] == 'bIII7' or notechords[c] == 'bIIId7' or notechords[c] == 'bVId7/V'):
+            counter[3] += 1         
+        if notes[c] == '0' and (notechords[c] == 'III' or notechords[c] == 'III64' or notechords[c] == 'V/vi' or notechords[c] == 'V6/vi' or notechords[c] == 'V65/vi' or notechords[c] == 'V7/vi'):
+            counter[4] += 1         
+        if notes[c] == '0' and (notechords[c] == 'IV' or notechords[c] == 'IV6' or notechords[c] == 'IV64' or notechords[c] == 'IV65' or notechords[c] == 'IV7' or notechords[c] == 'IV9' or notechords[c] == 'IVd43' or notechords[c] == 'IVd7' or notechords[c] == 'V/VII'):
+            counter[5] += 1         
+        if notes[c] == '0' and (notechords[c] == 'IV#' or notechords[c] == 'Vb' or notechords[c] == 'bVb5'):
+            counter[6] += 1
+        if notes[c] == '0' and (notechords[c] == 'V' or notechords[c] == 'V42' or notechords[c] == 'V43' or notechords[c] == 'V6' or notechords[c] == 'V64' or notechords[c] == 'V65' or notechords[c] == 'V7' or notechords[c] == 'V7b9' or notechords[c] == 'V7'):
+            counter[7] += 1            
+        if notes[c] == '0' and (notechords[c] == 'bVI' or notechords[c] == 'bVI6' or notechords[c] == 'bVI7' or notechords[c] == 'bVIb5' or notechords[c] == 'bVId7'):
+            counter[8] += 1                
+        if notes[c] == '0' and (notechords[c] == 'VI' or notechords[c] == 'V/ii' or notechords[c] == 'V/ii' or notechords[c] == 'V7/II' or notechords[c] == 'V7/II' or notechords[c] == 'VI7' or notechords[c] == 'VId9'):
+            counter[9] += 1                
+        if notes[c] == '0' and (notechords[c] == 'bVII' or notechords[c] == 'V/bIII' or notechords[c] == 'V7/bIII' or notechords[c] == 'bVII6' or notechords[c] == 'bVII64' or notechords[c] == 'bVIId7' or notechords[c] == 'bVId7/ii'):
+            counter[10] += 1     
+        if notes[c] == '0' and (notechords[c] == 'VII' or notechords[c] == 'V/III' or notechords[c] == 'V/iii'):
+            counter[11] += 1            
+
+        if notes[c] == '1' and (notechords[c] == 'I' or notechords[c]=='I6' or  notechords[c]=='I64' or  notechords[c]=='I7' or  notechords[c]=='Id9' or notechords[c]=='Id7' or notechords[c]=='V/IV' or notechords[c]=='V42/IV' or notechords[c]=='V43/IV' or notechords[c]=='V65/IV' or notechords[c]=='V7/IV'):
+            counter[12] += 1
+        if notes[c] == '1' and (notechords[c] == 'I#' or notechords[c] == 'I#9' or notechords[c] == 'bII' or notechords[c] == 'bII7'):
+            counter[13] += 1            
+        if notes[c] == '1' and (notechords[c] == 'II' or notechords[c] == 'II6' or notechords[c] == 'II65' or notechords[c] == 'II7' or notechords[c] == 'IId7' or notechords[c] == 'IV/vi' or notechords[c] == 'V6/V' or notechords[c] == 'V6/v' or notechords[c] == 'V65/V' or notechords[c] == 'V7/V'):
+            counter[14] += 1                
+        if notes[c] == '1' and (notechords[c] == 'bIII' or notechords[c] == 'V/bVI' or notechords[c] == 'bIII6' or notechords[c] == 'bIII64' or notechords[c] == 'bIII7' or notechords[c] == 'bIIId7' or notechords[c] == 'bVId7/V'):
+            counter[15] += 1         
+        if notes[c] == '1' and (notechords[c] == 'III' or notechords[c] == 'III64' or notechords[c] == 'V/vi' or notechords[c] == 'V6/vi' or notechords[c] == 'V65/vi' or notechords[c] == 'V7/vi'):
+            counter[16] += 1         
+        if notes[c] == '1' and (notechords[c] == 'IV' or notechords[c] == 'IV6' or notechords[c] == 'IV64' or notechords[c] == 'IV65' or notechords[c] == 'IV7' or notechords[c] == 'IV9' or notechords[c] == 'IVd43' or notechords[c] == 'IVd7' or notechords[c] == 'V/VII'):
+            counter[17] += 1         
+        if notes[c] == '1' and (notechords[c] == 'IV#' or notechords[c] == 'Vb' or notechords[c] == 'bVb5'):
+            counter[18] += 1
+        if notes[c] == '1' and (notechords[c] == 'V' or notechords[c] == 'V42' or notechords[c] == 'V43' or notechords[c] == 'V6' or notechords[c] == 'V64' or notechords[c] == 'V65' or notechords[c] == 'V7' or notechords[c] == 'V7b9' or notechords[c] == 'V7'):
+            counter[19] += 1            
+        if notes[c] == '1' and (notechords[c] == 'bVI' or notechords[c] == 'bVI6' or notechords[c] == 'bVI7' or notechords[c] == 'bVIb5' or notechords[c] == 'bVId7'):
+            counter[20] += 1                
+        if notes[c] == '1' and (notechords[c] == 'VI' or notechords[c] == 'V/ii' or notechords[c] == 'V/ii' or notechords[c] == 'V7/II' or notechords[c] == 'V7/II' or notechords[c] == 'VI7' or notechords[c] == 'VId9'):
+            counter[21] += 1                
+        if notes[c] == '1' and (notechords[c] == 'bVII' or notechords[c] == 'V/bIII' or notechords[c] == 'V7/bIII' or notechords[c] == 'bVII6' or notechords[c] == 'bVII64' or notechords[c] == 'bVIId7' or notechords[c] == 'bVId7/ii'):
+            counter[22] += 1     
+        if notes[c] == '1' and (notechords[c] == 'VII' or notechords[c] == 'V/III' or notechords[c] == 'V/iii'):
+            counter[23] += 1             
+            
+        if notes[c] == '2' and (notechords[c] == 'I' or notechords[c]=='I6' or  notechords[c]=='I64' or  notechords[c]=='I7' or  notechords[c]=='Id9' or notechords[c]=='Id7' or notechords[c]=='V/IV' or notechords[c]=='V42/IV' or notechords[c]=='V43/IV' or notechords[c]=='V65/IV' or notechords[c]=='V7/IV'):
+            counter[24] += 1
+        if notes[c] == '2' and (notechords[c] == 'I#' or notechords[c] == 'I#9' or notechords[c] == 'bII' or notechords[c] == 'bII7'):
+            counter[25] += 1            
+        if notes[c] == '2' and (notechords[c] == 'II' or notechords[c] == 'II6' or notechords[c] == 'II65' or notechords[c] == 'II7' or notechords[c] == 'IId7' or notechords[c] == 'IV/vi' or notechords[c] == 'V6/V' or notechords[c] == 'V6/v' or notechords[c] == 'V65/V' or notechords[c] == 'V7/V'):
+            counter[26] += 1                
+        if notes[c] == '2' and (notechords[c] == 'bIII' or notechords[c] == 'V/bVI' or notechords[c] == 'bIII6' or notechords[c] == 'bIII64' or notechords[c] == 'bIII7' or notechords[c] == 'bIIId7' or notechords[c] == 'bVId7/V'):
+            counter[27] += 1         
+        if notes[c] == '2' and (notechords[c] == 'III' or notechords[c] == 'III64' or notechords[c] == 'V/vi' or notechords[c] == 'V6/vi' or notechords[c] == 'V65/vi' or notechords[c] == 'V7/vi'):
+            counter[28] += 1         
+        if notes[c] == '2' and (notechords[c] == 'IV' or notechords[c] == 'IV6' or notechords[c] == 'IV64' or notechords[c] == 'IV65' or notechords[c] == 'IV7' or notechords[c] == 'IV9' or notechords[c] == 'IVd43' or notechords[c] == 'IVd7' or notechords[c] == 'V/VII'):
+            counter[29] += 1         
+        if notes[c] == '2' and (notechords[c] == 'IV#' or notechords[c] == 'Vb' or notechords[c] == 'bVb5'):
+            counter[30] += 1
+        if notes[c] == '2' and (notechords[c] == 'V' or notechords[c] == 'V42' or notechords[c] == 'V43' or notechords[c] == 'V6' or notechords[c] == 'V64' or notechords[c] == 'V65' or notechords[c] == 'V7' or notechords[c] == 'V7b9' or notechords[c] == 'V7'):
+            counter[31] += 1            
+        if notes[c] == '2' and (notechords[c] == 'bVI' or notechords[c] == 'bVI6' or notechords[c] == 'bVI7' or notechords[c] == 'bVIb5' or notechords[c] == 'bVId7'):
+            counter[32] += 1                
+        if notes[c] == '2' and (notechords[c] == 'VI' or notechords[c] == 'V/ii' or notechords[c] == 'V/ii' or notechords[c] == 'V7/II' or notechords[c] == 'V7/II' or notechords[c] == 'VI7' or notechords[c] == 'VId9'):
+            counter[33] += 1                
+        if notes[c] == '2' and (notechords[c] == 'bVII' or notechords[c] == 'V/bIII' or notechords[c] == 'V7/bIII' or notechords[c] == 'bVII6' or notechords[c] == 'bVII64' or notechords[c] == 'bVIId7' or notechords[c] == 'bVId7/ii'):
+            counter[34] += 1     
+        if notes[c] == '2' and (notechords[c] == 'VII' or notechords[c] == 'V/III' or notechords[c] == 'V/iii'):
+            counter[35] += 1               
+        
+        if notes[c] == '3' and (notechords[c] == 'I' or notechords[c]=='I6' or  notechords[c]=='I64' or  notechords[c]=='I7' or  notechords[c]=='Id9' or notechords[c]=='Id7' or notechords[c]=='V/IV' or notechords[c]=='V42/IV' or notechords[c]=='V43/IV' or notechords[c]=='V65/IV' or notechords[c]=='V7/IV'):
+            counter[36] += 1
+        if notes[c] == '3' and (notechords[c] == 'I#' or notechords[c] == 'I#9' or notechords[c] == 'bII' or notechords[c] == 'bII7'):
+            counter[37] += 1            
+        if notes[c] == '3' and (notechords[c] == 'II' or notechords[c] == 'II6' or notechords[c] == 'II65' or notechords[c] == 'II7' or notechords[c] == 'IId7' or notechords[c] == 'IV/vi' or notechords[c] == 'V6/V' or notechords[c] == 'V6/v' or notechords[c] == 'V65/V' or notechords[c] == 'V7/V'):
+            counter[38] += 1                
+        if notes[c] == '3' and (notechords[c] == 'bIII' or notechords[c] == 'V/bVI' or notechords[c] == 'bIII6' or notechords[c] == 'bIII64' or notechords[c] == 'bIII7' or notechords[c] == 'bIIId7' or notechords[c] == 'bVId7/V'):
+            counter[39] += 1         
+        if notes[c] == '3' and (notechords[c] == 'III' or notechords[c] == 'III64' or notechords[c] == 'V/vi' or notechords[c] == 'V6/vi' or notechords[c] == 'V65/vi' or notechords[c] == 'V7/vi'):
+            counter[40] += 1         
+        if notes[c] == '3' and (notechords[c] == 'IV' or notechords[c] == 'IV6' or notechords[c] == 'IV64' or notechords[c] == 'IV65' or notechords[c] == 'IV7' or notechords[c] == 'IV9' or notechords[c] == 'IVd43' or notechords[c] == 'IVd7' or notechords[c] == 'V/VII'):
+            counter[41] += 1         
+        if notes[c] == '3' and (notechords[c] == 'IV#' or notechords[c] == 'Vb' or notechords[c] == 'bVb5'):
+            counter[42] += 1
+        if notes[c] == '3' and (notechords[c] == 'V' or notechords[c] == 'V42' or notechords[c] == 'V43' or notechords[c] == 'V6' or notechords[c] == 'V64' or notechords[c] == 'V65' or notechords[c] == 'V7' or notechords[c] == 'V7b9' or notechords[c] == 'V7'):
+            counter[43] += 1            
+        if notes[c] == '3' and (notechords[c] == 'bVI' or notechords[c] == 'bVI6' or notechords[c] == 'bVI7' or notechords[c] == 'bVIb5' or notechords[c] == 'bVId7'):
+            counter[44] += 1                
+        if notes[c] == '3' and (notechords[c] == 'VI' or notechords[c] == 'V/ii' or notechords[c] == 'V/ii' or notechords[c] == 'V7/II' or notechords[c] == 'V7/II' or notechords[c] == 'VI7' or notechords[c] == 'VId9'):
+            counter[45] += 1                
+        if notes[c] == '3' and (notechords[c] == 'bVII' or notechords[c] == 'V/bIII' or notechords[c] == 'V7/bIII' or notechords[c] == 'bVII6' or notechords[c] == 'bVII64' or notechords[c] == 'bVIId7' or notechords[c] == 'bVId7/ii'):
+            counter[46] += 1     
+        if notes[c] == '3' and (notechords[c] == 'VII' or notechords[c] == 'V/III' or notechords[c] == 'V/iii'):
+            counter[47] += 1      
+
+        if notes[c] == '4' and (notechords[c] == 'I' or notechords[c]=='I6' or  notechords[c]=='I64' or  notechords[c]=='I7' or  notechords[c]=='Id9' or notechords[c]=='Id7' or notechords[c]=='V/IV' or notechords[c]=='V42/IV' or notechords[c]=='V43/IV' or notechords[c]=='V65/IV' or notechords[c]=='V7/IV'):
+            counter[48] += 1
+        if notes[c] == '4' and (notechords[c] == 'I#' or notechords[c] == 'I#9' or notechords[c] == 'bII' or notechords[c] == 'bII7'):
+            counter[49] += 1            
+        if notes[c] == '4' and (notechords[c] == 'II' or notechords[c] == 'II6' or notechords[c] == 'II65' or notechords[c] == 'II7' or notechords[c] == 'IId7' or notechords[c] == 'IV/vi' or notechords[c] == 'V6/V' or notechords[c] == 'V6/v' or notechords[c] == 'V65/V' or notechords[c] == 'V7/V'):
+            counter[50] += 1                
+        if notes[c] == '4' and (notechords[c] == 'bIII' or notechords[c] == 'V/bVI' or notechords[c] == 'bIII6' or notechords[c] == 'bIII64' or notechords[c] == 'bIII7' or notechords[c] == 'bIIId7' or notechords[c] == 'bVId7/V'):
+            counter[51] += 1         
+        if notes[c] == '4' and (notechords[c] == 'III' or notechords[c] == 'III64' or notechords[c] == 'V/vi' or notechords[c] == 'V6/vi' or notechords[c] == 'V65/vi' or notechords[c] == 'V7/vi'):
+            counter[52] += 1         
+        if notes[c] == '4' and (notechords[c] == 'IV' or notechords[c] == 'IV6' or notechords[c] == 'IV64' or notechords[c] == 'IV65' or notechords[c] == 'IV7' or notechords[c] == 'IV9' or notechords[c] == 'IVd43' or notechords[c] == 'IVd7' or notechords[c] == 'V/VII'):
+            counter[53] += 1         
+        if notes[c] == '4' and (notechords[c] == 'IV#' or notechords[c] == 'Vb' or notechords[c] == 'bVb5'):
+            counter[54] += 1
+        if notes[c] == '4' and (notechords[c] == 'V' or notechords[c] == 'V42' or notechords[c] == 'V43' or notechords[c] == 'V6' or notechords[c] == 'V64' or notechords[c] == 'V65' or notechords[c] == 'V7' or notechords[c] == 'V7b9' or notechords[c] == 'V7'):
+            counter[55] += 1            
+        if notes[c] == '4' and (notechords[c] == 'bVI' or notechords[c] == 'bVI6' or notechords[c] == 'bVI7' or notechords[c] == 'bVIb5' or notechords[c] == 'bVId7'):
+            counter[56] += 1                
+        if notes[c] == '4' and (notechords[c] == 'VI' or notechords[c] == 'V/ii' or notechords[c] == 'V/ii' or notechords[c] == 'V7/II' or notechords[c] == 'V7/II' or notechords[c] == 'VI7' or notechords[c] == 'VId9'):
+            counter[57] += 1                
+        if notes[c] == '4' and (notechords[c] == 'bVII' or notechords[c] == 'V/bIII' or notechords[c] == 'V7/bIII' or notechords[c] == 'bVII6' or notechords[c] == 'bVII64' or notechords[c] == 'bVIId7' or notechords[c] == 'bVId7/ii'):
+            counter[58] += 1     
+        if notes[c] == '4' and (notechords[c] == 'VII' or notechords[c] == 'V/III' or notechords[c] == 'V/iii'):
+            counter[59] += 1      
+
+        if notes[c] == '5' and (notechords[c] == 'I' or notechords[c]=='I6' or  notechords[c]=='I64' or  notechords[c]=='I7' or  notechords[c]=='Id9' or notechords[c]=='Id7' or notechords[c]=='V/IV' or notechords[c]=='V42/IV' or notechords[c]=='V43/IV' or notechords[c]=='V65/IV' or notechords[c]=='V7/IV'):
+            counter[60] += 1
+        if notes[c] == '5' and (notechords[c] == 'I#' or notechords[c] == 'I#9' or notechords[c] == 'bII' or notechords[c] == 'bII7'):
+            counter[61] += 1            
+        if notes[c] == '5' and (notechords[c] == 'II' or notechords[c] == 'II6' or notechords[c] == 'II65' or notechords[c] == 'II7' or notechords[c] == 'IId7' or notechords[c] == 'IV/vi' or notechords[c] == 'V6/V' or notechords[c] == 'V6/v' or notechords[c] == 'V65/V' or notechords[c] == 'V7/V'):
+            counter[62] += 1                
+        if notes[c] == '5' and (notechords[c] == 'bIII' or notechords[c] == 'V/bVI' or notechords[c] == 'bIII6' or notechords[c] == 'bIII64' or notechords[c] == 'bIII7' or notechords[c] == 'bIIId7' or notechords[c] == 'bVId7/V'):
+            counter[63] += 1         
+        if notes[c] == '5' and (notechords[c] == 'III' or notechords[c] == 'III64' or notechords[c] == 'V/vi' or notechords[c] == 'V6/vi' or notechords[c] == 'V65/vi' or notechords[c] == 'V7/vi'):
+            counter[64] += 1         
+        if notes[c] == '5' and (notechords[c] == 'IV' or notechords[c] == 'IV6' or notechords[c] == 'IV64' or notechords[c] == 'IV65' or notechords[c] == 'IV7' or notechords[c] == 'IV9' or notechords[c] == 'IVd43' or notechords[c] == 'IVd7' or notechords[c] == 'V/VII'):
+            counter[65] += 1         
+        if notes[c] == '5' and (notechords[c] == 'IV#' or notechords[c] == 'Vb' or notechords[c] == 'bVb5'):
+            counter[66] += 1
+        if notes[c] == '5' and (notechords[c] == 'V' or notechords[c] == 'V42' or notechords[c] == 'V43' or notechords[c] == 'V6' or notechords[c] == 'V64' or notechords[c] == 'V65' or notechords[c] == 'V7' or notechords[c] == 'V7b9' or notechords[c] == 'V7'):
+            counter[67] += 1            
+        if notes[c] == '5' and (notechords[c] == 'bVI' or notechords[c] == 'bVI6' or notechords[c] == 'bVI7' or notechords[c] == 'bVIb5' or notechords[c] == 'bVId7'):
+            counter[68] += 1                
+        if notes[c] == '5' and (notechords[c] == 'VI' or notechords[c] == 'V/ii' or notechords[c] == 'V/ii' or notechords[c] == 'V7/II' or notechords[c] == 'V7/II' or notechords[c] == 'VI7' or notechords[c] == 'VId9'):
+            counter[69] += 1                
+        if notes[c] == '5' and (notechords[c] == 'bVII' or notechords[c] == 'V/bIII' or notechords[c] == 'V7/bIII' or notechords[c] == 'bVII6' or notechords[c] == 'bVII64' or notechords[c] == 'bVIId7' or notechords[c] == 'bVId7/ii'):
+            counter[70] += 1     
+        if notes[c] == '5' and (notechords[c] == 'VII' or notechords[c] == 'V/III' or notechords[c] == 'V/iii'):
+            counter[71] += 1                
+
+        if notes[c] == '6' and (notechords[c] == 'I' or notechords[c]=='I6' or  notechords[c]=='I64' or  notechords[c]=='I7' or  notechords[c]=='Id9' or notechords[c]=='Id7' or notechords[c]=='V/IV' or notechords[c]=='V42/IV' or notechords[c]=='V43/IV' or notechords[c]=='V65/IV' or notechords[c]=='V7/IV'):
+            counter[72] += 1
+        if notes[c] == '6' and (notechords[c] == 'I#' or notechords[c] == 'I#9' or notechords[c] == 'bII' or notechords[c] == 'bII7'):
+            counter[73] += 1            
+        if notes[c] == '6' and (notechords[c] == 'II' or notechords[c] == 'II6' or notechords[c] == 'II65' or notechords[c] == 'II7' or notechords[c] == 'IId7' or notechords[c] == 'IV/vi' or notechords[c] == 'V6/V' or notechords[c] == 'V6/v' or notechords[c] == 'V65/V' or notechords[c] == 'V7/V'):
+            counter[74] += 1                
+        if notes[c] == '6' and (notechords[c] == 'bIII' or notechords[c] == 'V/bVI' or notechords[c] == 'bIII6' or notechords[c] == 'bIII64' or notechords[c] == 'bIII7' or notechords[c] == 'bIIId7' or notechords[c] == 'bVId7/V'):
+            counter[75] += 1         
+        if notes[c] == '6' and (notechords[c] == 'III' or notechords[c] == 'III64' or notechords[c] == 'V/vi' or notechords[c] == 'V6/vi' or notechords[c] == 'V65/vi' or notechords[c] == 'V7/vi'):
+            counter[76] += 1         
+        if notes[c] == '6' and (notechords[c] == 'IV' or notechords[c] == 'IV6' or notechords[c] == 'IV64' or notechords[c] == 'IV65' or notechords[c] == 'IV7' or notechords[c] == 'IV9' or notechords[c] == 'IVd43' or notechords[c] == 'IVd7' or notechords[c] == 'V/VII'):
+            counter[77] += 1         
+        if notes[c] == '6' and (notechords[c] == 'IV#' or notechords[c] == 'Vb' or notechords[c] == 'bVb5'):
+            counter[78] += 1
+        if notes[c] == '6' and (notechords[c] == 'V' or notechords[c] == 'V42' or notechords[c] == 'V43' or notechords[c] == 'V6' or notechords[c] == 'V64' or notechords[c] == 'V65' or notechords[c] == 'V7' or notechords[c] == 'V7b9' or notechords[c] == 'V7'):
+            counter[79] += 1            
+        if notes[c] == '6' and (notechords[c] == 'bVI' or notechords[c] == 'bVI6' or notechords[c] == 'bVI7' or notechords[c] == 'bVIb5' or notechords[c] == 'bVId7'):
+            counter[80] += 1                
+        if notes[c] == '6' and (notechords[c] == 'VI' or notechords[c] == 'V/ii' or notechords[c] == 'V/ii' or notechords[c] == 'V7/II' or notechords[c] == 'V7/II' or notechords[c] == 'VI7' or notechords[c] == 'VId9'):
+            counter[81] += 1                
+        if notes[c] == '6' and (notechords[c] == 'bVII' or notechords[c] == 'V/bIII' or notechords[c] == 'V7/bIII' or notechords[c] == 'bVII6' or notechords[c] == 'bVII64' or notechords[c] == 'bVIId7' or notechords[c] == 'bVId7/ii'):
+            counter[82] += 1     
+        if notes[c] == '6' and (notechords[c] == 'VII' or notechords[c] == 'V/III' or notechords[c] == 'V/iii'):
+            counter[83] += 1                
+                      
+        if notes[c] == '7' and (notechords[c] == 'I' or notechords[c]=='I6' or  notechords[c]=='I64' or  notechords[c]=='I7' or  notechords[c]=='Id9' or notechords[c]=='Id7' or notechords[c]=='V/IV' or notechords[c]=='V42/IV' or notechords[c]=='V43/IV' or notechords[c]=='V65/IV' or notechords[c]=='V7/IV'):
+            counter[84] += 1
+        if notes[c] == '7' and (notechords[c] == 'I#' or notechords[c] == 'I#9' or notechords[c] == 'bII' or notechords[c] == 'bII7'):
+            counter[85] += 1            
+        if notes[c] == '7' and (notechords[c] == 'II' or notechords[c] == 'II6' or notechords[c] == 'II65' or notechords[c] == 'II7' or notechords[c] == 'IId7' or notechords[c] == 'IV/vi' or notechords[c] == 'V6/V' or notechords[c] == 'V6/v' or notechords[c] == 'V65/V' or notechords[c] == 'V7/V'):
+            counter[86] += 1                
+        if notes[c] == '7' and (notechords[c] == 'bIII' or notechords[c] == 'V/bVI' or notechords[c] == 'bIII6' or notechords[c] == 'bIII64' or notechords[c] == 'bIII7' or notechords[c] == 'bIIId7' or notechords[c] == 'bVId7/V'):
+            counter[87] += 1         
+        if notes[c] == '7' and (notechords[c] == 'III' or notechords[c] == 'III64' or notechords[c] == 'V/vi' or notechords[c] == 'V6/vi' or notechords[c] == 'V65/vi' or notechords[c] == 'V7/vi'):
+            counter[88] += 1         
+        if notes[c] == '7' and (notechords[c] == 'IV' or notechords[c] == 'IV6' or notechords[c] == 'IV64' or notechords[c] == 'IV65' or notechords[c] == 'IV7' or notechords[c] == 'IV9' or notechords[c] == 'IVd43' or notechords[c] == 'IVd7' or notechords[c] == 'V/VII'):
+            counter[89] += 1         
+        if notes[c] == '7' and (notechords[c] == 'IV#' or notechords[c] == 'Vb' or notechords[c] == 'bVb5'):
+            counter[90] += 1
+        if notes[c] == '7' and (notechords[c] == 'V' or notechords[c] == 'V42' or notechords[c] == 'V43' or notechords[c] == 'V6' or notechords[c] == 'V64' or notechords[c] == 'V65' or notechords[c] == 'V7' or notechords[c] == 'V7b9' or notechords[c] == 'V7'):
+            counter[91] += 1            
+        if notes[c] == '7' and (notechords[c] == 'bVI' or notechords[c] == 'bVI6' or notechords[c] == 'bVI7' or notechords[c] == 'bVIb5' or notechords[c] == 'bVId7'):
+            counter[92] += 1                
+        if notes[c] == '7' and (notechords[c] == 'VI' or notechords[c] == 'V/ii' or notechords[c] == 'V/ii' or notechords[c] == 'V7/II' or notechords[c] == 'V7/II' or notechords[c] == 'VI7' or notechords[c] == 'VId9'):
+            counter[93] += 1                
+        if notes[c] == '7' and (notechords[c] == 'bVII' or notechords[c] == 'V/bIII' or notechords[c] == 'V7/bIII' or notechords[c] == 'bVII6' or notechords[c] == 'bVII64' or notechords[c] == 'bVIId7' or notechords[c] == 'bVId7/ii'):
+            counter[94] += 1     
+        if notes[c] == '7' and (notechords[c] == 'VII' or notechords[c] == 'V/III' or notechords[c] == 'V/iii'):
+            counter[95] += 1                
+
+        if notes[c] == '8' and (notechords[c] == 'I' or notechords[c]=='I6' or  notechords[c]=='I64' or  notechords[c]=='I7' or  notechords[c]=='Id9' or notechords[c]=='Id7' or notechords[c]=='V/IV' or notechords[c]=='V42/IV' or notechords[c]=='V43/IV' or notechords[c]=='V65/IV' or notechords[c]=='V7/IV'):
+            counter[96] += 1
+        if notes[c] == '8' and (notechords[c] == 'I#' or notechords[c] == 'I#9' or notechords[c] == 'bII' or notechords[c] == 'bII7'):
+            counter[97] += 1            
+        if notes[c] == '8' and (notechords[c] == 'II' or notechords[c] == 'II6' or notechords[c] == 'II65' or notechords[c] == 'II7' or notechords[c] == 'IId7' or notechords[c] == 'IV/vi' or notechords[c] == 'V6/V' or notechords[c] == 'V6/v' or notechords[c] == 'V65/V' or notechords[c] == 'V7/V'):
+            counter[98] += 1                
+        if notes[c] == '8' and (notechords[c] == 'bIII' or notechords[c] == 'V/bVI' or notechords[c] == 'bIII6' or notechords[c] == 'bIII64' or notechords[c] == 'bIII7' or notechords[c] == 'bIIId7' or notechords[c] == 'bVId7/V'):
+            counter[99] += 1         
+        if notes[c] == '8' and (notechords[c] == 'III' or notechords[c] == 'III64' or notechords[c] == 'V/vi' or notechords[c] == 'V6/vi' or notechords[c] == 'V65/vi' or notechords[c] == 'V7/vi'):
+            counter[100] += 1         
+        if notes[c] == '8' and (notechords[c] == 'IV' or notechords[c] == 'IV6' or notechords[c] == 'IV64' or notechords[c] == 'IV65' or notechords[c] == 'IV7' or notechords[c] == 'IV9' or notechords[c] == 'IVd43' or notechords[c] == 'IVd7' or notechords[c] == 'V/VII'):
+            counter[101] += 1         
+        if notes[c] == '8' and (notechords[c] == 'IV#' or notechords[c] == 'Vb' or notechords[c] == 'bVb5'):
+            counter[102] += 1
+        if notes[c] == '8' and (notechords[c] == 'V' or notechords[c] == 'V42' or notechords[c] == 'V43' or notechords[c] == 'V6' or notechords[c] == 'V64' or notechords[c] == 'V65' or notechords[c] == 'V7' or notechords[c] == 'V7b9' or notechords[c] == 'V7'):
+            counter[103] += 1            
+        if notes[c] == '8' and (notechords[c] == 'bVI' or notechords[c] == 'bVI6' or notechords[c] == 'bVI7' or notechords[c] == 'bVIb5' or notechords[c] == 'bVId7'):
+            counter[104] += 1                
+        if notes[c] == '8' and (notechords[c] == 'VI' or notechords[c] == 'V/ii' or notechords[c] == 'V/ii' or notechords[c] == 'V7/II' or notechords[c] == 'V7/II' or notechords[c] == 'VI7' or notechords[c] == 'VId9'):
+            counter[105] += 1                
+        if notes[c] == '8' and (notechords[c] == 'bVII' or notechords[c] == 'V/bIII' or notechords[c] == 'V7/bIII' or notechords[c] == 'bVII6' or notechords[c] == 'bVII64' or notechords[c] == 'bVIId7' or notechords[c] == 'bVId7/ii'):
+            counter[106] += 1     
+        if notes[c] == '8' and (notechords[c] == 'VII' or notechords[c] == 'V/III' or notechords[c] == 'V/iii'):
+            counter[107] += 1                                       
+  
+        if notes[c] == '9' and (notechords[c] == 'I' or notechords[c]=='I6' or  notechords[c]=='I64' or  notechords[c]=='I7' or  notechords[c]=='Id9' or notechords[c]=='Id7' or notechords[c]=='V/IV' or notechords[c]=='V42/IV' or notechords[c]=='V43/IV' or notechords[c]=='V65/IV' or notechords[c]=='V7/IV'):
+            counter[108] += 1
+        if notes[c] == '9' and (notechords[c] == 'I#' or notechords[c] == 'I#9' or notechords[c] == 'bII' or notechords[c] == 'bII7'):
+            counter[109] += 1            
+        if notes[c] == '9' and (notechords[c] == 'II' or notechords[c] == 'II6' or notechords[c] == 'II65' or notechords[c] == 'II7' or notechords[c] == 'IId7' or notechords[c] == 'IV/vi' or notechords[c] == 'V6/V' or notechords[c] == 'V6/v' or notechords[c] == 'V65/V' or notechords[c] == 'V7/V'):
+            counter[110] += 1                
+        if notes[c] == '9' and (notechords[c] == 'bIII' or notechords[c] == 'V/bVI' or notechords[c] == 'bIII6' or notechords[c] == 'bIII64' or notechords[c] == 'bIII7' or notechords[c] == 'bIIId7' or notechords[c] == 'bVId7/V'):
+            counter[111] += 1         
+        if notes[c] == '9' and (notechords[c] == 'III' or notechords[c] == 'III64' or notechords[c] == 'V/vi' or notechords[c] == 'V6/vi' or notechords[c] == 'V65/vi' or notechords[c] == 'V7/vi'):
+            counter[112] += 1         
+        if notes[c] == '9' and (notechords[c] == 'IV' or notechords[c] == 'IV6' or notechords[c] == 'IV64' or notechords[c] == 'IV65' or notechords[c] == 'IV7' or notechords[c] == 'IV9' or notechords[c] == 'IVd43' or notechords[c] == 'IVd7' or notechords[c] == 'V/VII'):
+            counter[113] += 1         
+        if notes[c] == '9' and (notechords[c] == 'IV#' or notechords[c] == 'Vb' or notechords[c] == 'bVb5'):
+            counter[114] += 1
+        if notes[c] == '9' and (notechords[c] == 'V' or notechords[c] == 'V42' or notechords[c] == 'V43' or notechords[c] == 'V6' or notechords[c] == 'V64' or notechords[c] == 'V65' or notechords[c] == 'V7' or notechords[c] == 'V7b9' or notechords[c] == 'V7'):
+            counter[115] += 1            
+        if notes[c] == '9' and (notechords[c] == 'bVI' or notechords[c] == 'bVI6' or notechords[c] == 'bVI7' or notechords[c] == 'bVIb5' or notechords[c] == 'bVId7'):
+            counter[116] += 1                
+        if notes[c] == '9' and (notechords[c] == 'VI' or notechords[c] == 'V/ii' or notechords[c] == 'V/ii' or notechords[c] == 'V7/II' or notechords[c] == 'V7/II' or notechords[c] == 'VI7' or notechords[c] == 'VId9'):
+            counter[117] += 1                
+        if notes[c] == '9' and (notechords[c] == 'bVII' or notechords[c] == 'V/bIII' or notechords[c] == 'V7/bIII' or notechords[c] == 'bVII6' or notechords[c] == 'bVII64' or notechords[c] == 'bVIId7' or notechords[c] == 'bVId7/ii'):
+            counter[118] += 1     
+        if notes[c] == '9' and (notechords[c] == 'VII' or notechords[c] == 'V/III' or notechords[c] == 'V/iii'):
+            counter[119] += 1            
+        
+        if notes[c] == '10' and (notechords[c] == 'I' or notechords[c]=='I6' or  notechords[c]=='I64' or  notechords[c]=='I7' or  notechords[c]=='Id9' or notechords[c]=='Id7' or notechords[c]=='V/IV' or notechords[c]=='V42/IV' or notechords[c]=='V43/IV' or notechords[c]=='V65/IV' or notechords[c]=='V7/IV'):
+            counter[120] += 1
+        if notes[c] == '10' and (notechords[c] == 'I#' or notechords[c] == 'I#9' or notechords[c] == 'bII' or notechords[c] == 'bII7'):
+            counter[121] += 1            
+        if notes[c] == '10' and (notechords[c] == 'II' or notechords[c] == 'II6' or notechords[c] == 'II65' or notechords[c] == 'II7' or notechords[c] == 'IId7' or notechords[c] == 'IV/vi' or notechords[c] == 'V6/V' or notechords[c] == 'V6/v' or notechords[c] == 'V65/V' or notechords[c] == 'V7/V'):
+            counter[122] += 1                
+        if notes[c] == '10' and (notechords[c] == 'bIII' or notechords[c] == 'V/bVI' or notechords[c] == 'bIII6' or notechords[c] == 'bIII64' or notechords[c] == 'bIII7' or notechords[c] == 'bIIId7' or notechords[c] == 'bVId7/V'):
+            counter[123] += 1         
+        if notes[c] == '10' and (notechords[c] == 'III' or notechords[c] == 'III64' or notechords[c] == 'V/vi' or notechords[c] == 'V6/vi' or notechords[c] == 'V65/vi' or notechords[c] == 'V7/vi'):
+            counter[124] += 1         
+        if notes[c] == '10' and (notechords[c] == 'IV' or notechords[c] == 'IV6' or notechords[c] == 'IV64' or notechords[c] == 'IV65' or notechords[c] == 'IV7' or notechords[c] == 'IV9' or notechords[c] == 'IVd43' or notechords[c] == 'IVd7' or notechords[c] == 'V/VII'):
+            counter[125] += 1         
+        if notes[c] == '10' and (notechords[c] == 'IV#' or notechords[c] == 'Vb' or notechords[c] == 'bVb5'):
+            counter[126] += 1
+        if notes[c] == '10' and (notechords[c] == 'V' or notechords[c] == 'V42' or notechords[c] == 'V43' or notechords[c] == 'V6' or notechords[c] == 'V64' or notechords[c] == 'V65' or notechords[c] == 'V7' or notechords[c] == 'V7b9' or notechords[c] == 'V7'):
+            counter[127] += 1            
+        if notes[c] == '10' and (notechords[c] == 'bVI' or notechords[c] == 'bVI6' or notechords[c] == 'bVI7' or notechords[c] == 'bVIb5' or notechords[c] == 'bVId7'):
+            counter[128] += 1                
+        if notes[c] == '10' and (notechords[c] == 'VI' or notechords[c] == 'V/ii' or notechords[c] == 'V/ii' or notechords[c] == 'V7/II' or notechords[c] == 'V7/II' or notechords[c] == 'VI7' or notechords[c] == 'VId9'):
+            counter[129] += 1                
+        if notes[c] == '10' and (notechords[c] == 'bVII' or notechords[c] == 'V/bIII' or notechords[c] == 'V7/bIII' or notechords[c] == 'bVII6' or notechords[c] == 'bVII64' or notechords[c] == 'bVIId7' or notechords[c] == 'bVId7/ii'):
+            counter[130] += 1     
+        if notes[c] == '10' and (notechords[c] == 'VII' or notechords[c] == 'V/III' or notechords[c] == 'V/iii'):
+            counter[131] += 1 
+            
+        if notes[c] == '11' and (notechords[c] == 'I' or notechords[c]=='I6' or  notechords[c]=='I64' or  notechords[c]=='I7' or  notechords[c]=='Id9' or notechords[c]=='Id7' or notechords[c]=='V/IV' or notechords[c]=='V42/IV' or notechords[c]=='V43/IV' or notechords[c]=='V65/IV' or notechords[c]=='V7/IV'):
+            counter[132] += 1
+        if notes[c] == '11' and (notechords[c] == 'I#' or notechords[c] == 'I#9' or notechords[c] == 'bII' or notechords[c] == 'bII7'):
+            counter[133] += 1            
+        if notes[c] == '11' and (notechords[c] == 'II' or notechords[c] == 'II6' or notechords[c] == 'II65' or notechords[c] == 'II7' or notechords[c] == 'IId7' or notechords[c] == 'IV/vi' or notechords[c] == 'V6/V' or notechords[c] == 'V6/v' or notechords[c] == 'V65/V' or notechords[c] == 'V7/V'):
+            counter[134] += 1                
+        if notes[c] == '11' and (notechords[c] == 'bIII' or notechords[c] == 'V/bVI' or notechords[c] == 'bIII6' or notechords[c] == 'bIII64' or notechords[c] == 'bIII7' or notechords[c] == 'bIIId7' or notechords[c] == 'bVId7/V'):
+            counter[135] += 1         
+        if notes[c] == '11' and (notechords[c] == 'III' or notechords[c] == 'III64' or notechords[c] == 'V/vi' or notechords[c] == 'V6/vi' or notechords[c] == 'V65/vi' or notechords[c] == 'V7/vi'):
+            counter[136] += 1         
+        if notes[c] == '11' and (notechords[c] == 'IV' or notechords[c] == 'IV6' or notechords[c] == 'IV64' or notechords[c] == 'IV65' or notechords[c] == 'IV7' or notechords[c] == 'IV9' or notechords[c] == 'IVd43' or notechords[c] == 'IVd7' or notechords[c] == 'V/VII'):
+            counter[137] += 1         
+        if notes[c] == '11' and (notechords[c] == 'IV#' or notechords[c] == 'Vb' or notechords[c] == 'bVb5'):
+            counter[138] += 1
+        if notes[c] == '11' and (notechords[c] == 'V' or notechords[c] == 'V42' or notechords[c] == 'V43' or notechords[c] == 'V6' or notechords[c] == 'V64' or notechords[c] == 'V65' or notechords[c] == 'V7' or notechords[c] == 'V7b9' or notechords[c] == 'V7'):
+            counter[139] += 1            
+        if notes[c] == '11' and (notechords[c] == 'bVI' or notechords[c] == 'bVI6' or notechords[c] == 'bVI7' or notechords[c] == 'bVIb5' or notechords[c] == 'bVId7'):
+            counter[140] += 1                
+        if notes[c] == '11' and (notechords[c] == 'VI' or notechords[c] == 'V/ii' or notechords[c] == 'V/ii' or notechords[c] == 'V7/II' or notechords[c] == 'V7/II' or notechords[c] == 'VI7' or notechords[c] == 'VId9'):
+            counter[141] += 1                
+        if notes[c] == '11' and (notechords[c] == 'bVII' or notechords[c] == 'V/bIII' or notechords[c] == 'V7/bIII' or notechords[c] == 'bVII6' or notechords[c] == 'bVII64' or notechords[c] == 'bVIId7' or notechords[c] == 'bVId7/ii'):
+            counter[142] += 1     
+        if notes[c] == '11' and (notechords[c] == 'VII' or notechords[c] == 'V/III' or notechords[c] == 'V/iii'):
+            counter[143] += 1 
+
+            
+    #MINORS
+        if notes[c] == '0' and (notechords[c] == 'i' or notechords[c] == 'i42' or notechords[c] == 'i6' or notechords[c] == 'i7' or notechords[c] == 'i9' or notechords[c] == 'ii7/bVII'):
+            counter[144] += 1
+        if notes[c] == '0' and notechords[c] == 'i#':
+            counter[145] += 1            
+        if notes[c] == '0' and (notechords[c] == 'ii' or notechords[c] == 'ii6' or notechords[c] == 'ii65' or notechords[c] == 'ii7' or notechords[c] == 'ii9' or notechords[c] == 'iih42' or notechords[c] == 'iih43'):
+            counter[146] += 1                
+        if notes[c] == '0' and (notechords[c] == 'biii' or notechords[c] == 'biii7'):
+            counter[147] += 1         
+        if notes[c] == '0' and (notechords[c] == 'iii' or notechords[c] == 'iih43/ii' or notechords[c] == 'iii6' or notechords[c] == 'iii64' or notechords[c] == 'iii7'):
+            counter[148] += 1         
+        if notes[c] == '0' and (notechords[c] == 'iv' or notechords[c] == 'iv64' or notechords[c] == 'iv65' or notechords[c] == 'iv7'):
+            counter[149] += 1         
+        if notes[c] == '0' and notechords[c] == '#iv':
+            counter[150] += 1
+        if notes[c] == '0' and (notechords[c] == 'v' or notechords[c] == 'ii/IV' or notechords[c] == 'v6' or notechords[c] == 'v64' or notechords[c] == 'v65' or notechords[c] == 'v7'):
+            counter[151] += 1            
+        if notes[c] == '0' and notechords[c] == 'bvi':
+            counter[152] += 1                
+        if notes[c] == '0' and (notechords[c] == 'vi' or notechords[c] == 'ii/V' or notechords[c] == 'vi6' or notechords[c] == 'vi64' or notechords[c] == 'vi7' or notechords[c] == 'vi9'):
+            counter[153] += 1                
+        if notes[c] == '0' and (notechords[c] == 'bvii' or notechords[c] == 'bvii7' or notechords[c] == 'ii7/bVI'):
+            counter[154] += 1     
+        if notes[c] == '0' and (notechords[c] == 'vii' or notechords[c] == 'ii7/vi' or notechords[c] == 'vii64'):
+            counter[155] += 1            
+
+        if notes[c] == '1' and (notechords[c] == 'i' or notechords[c] == 'i42' or notechords[c] == 'i6' or notechords[c] == 'i7' or notechords[c] == 'i9' or notechords[c] == 'ii7/bVII'):
+            counter[156] += 1
+        if notes[c] == '1' and notechords[c] == 'i#':
+            counter[157] += 1            
+        if notes[c] == '1' and (notechords[c] == 'ii' or notechords[c] == 'ii6' or notechords[c] == 'ii65' or notechords[c] == 'ii7' or notechords[c] == 'ii9' or notechords[c] == 'iih42' or notechords[c] == 'iih43'):
+            counter[158] += 1                
+        if notes[c] == '1' and (notechords[c] == 'biii' or notechords[c] == 'biii7'):
+            counter[159] += 1         
+        if notes[c] == '1' and (notechords[c] == 'iii' or notechords[c] == 'iih43/ii' or notechords[c] == 'iii6' or notechords[c] == 'iii64' or notechords[c] == 'iii7'):
+            counter[160] += 1         
+        if notes[c] == '1' and (notechords[c] == 'iv' or notechords[c] == 'iv64' or notechords[c] == 'iv65' or notechords[c] == 'iv7'):
+            counter[161] += 1         
+        if notes[c] == '1' and notechords[c] == '#iv':
+            counter[162] += 1
+        if notes[c] == '1' and (notechords[c] == 'v' or notechords[c] == 'ii/IV' or notechords[c] == 'v6' or notechords[c] == 'v64' or notechords[c] == 'v65' or notechords[c] == 'v7'):
+            counter[163] += 1            
+        if notes[c] == '1' and notechords[c] == 'bvi':
+            counter[164] += 1                
+        if notes[c] == '1' and (notechords[c] == 'vi' or notechords[c] == 'ii/V' or notechords[c] == 'vi6' or notechords[c] == 'vi64' or notechords[c] == 'vi7' or notechords[c] == 'vi9'):
+            counter[165] += 1                
+        if notes[c] == '1' and (notechords[c] == 'bvii' or notechords[c] == 'bvii7' or notechords[c] == 'ii7/bVI'):
+            counter[166] += 1     
+        if notes[c] == '1' and (notechords[c] == 'vii' or notechords[c] == 'ii7/vi' or notechords[c] == 'vii64'):
+            counter[167] += 1     
+
+        if notes[c] == '2' and (notechords[c] == 'i' or notechords[c] == 'i42' or notechords[c] == 'i6' or notechords[c] == 'i7' or notechords[c] == 'i9' or notechords[c] == 'ii7/bVII'):
+            counter[168] += 1
+        if notes[c] == '2' and notechords[c] == 'i#':
+            counter[169] += 1            
+        if notes[c] == '2' and (notechords[c] == 'ii' or notechords[c] == 'ii6' or notechords[c] == 'ii65' or notechords[c] == 'ii7' or notechords[c] == 'ii9' or notechords[c] == 'iih42' or notechords[c] == 'iih43'):
+            counter[170] += 1                
+        if notes[c] == '2' and (notechords[c] == 'biii' or notechords[c] == 'biii7'):
+            counter[171] += 1         
+        if notes[c] == '2' and (notechords[c] == 'iii' or notechords[c] == 'iih43/ii' or notechords[c] == 'iii6' or notechords[c] == 'iii64' or notechords[c] == 'iii7'):
+            counter[172] += 1         
+        if notes[c] == '2' and (notechords[c] == 'iv' or notechords[c] == 'iv64' or notechords[c] == 'iv65' or notechords[c] == 'iv7'):
+            counter[173] += 1         
+        if notes[c] == '2' and notechords[c] == '#iv':
+            counter[174] += 1
+        if notes[c] == '2' and (notechords[c] == 'v' or notechords[c] == 'ii/IV' or notechords[c] == 'v6' or notechords[c] == 'v64' or notechords[c] == 'v65' or notechords[c] == 'v7'):
+            counter[175] += 1            
+        if notes[c] == '2' and notechords[c] == 'bvi':
+            counter[176] += 1                
+        if notes[c] == '2' and (notechords[c] == 'vi' or notechords[c] == 'ii/V' or notechords[c] == 'vi6' or notechords[c] == 'vi64' or notechords[c] == 'vi7' or notechords[c] == 'vi9'):
+            counter[177] += 1                
+        if notes[c] == '2' and (notechords[c] == 'bvii' or notechords[c] == 'bvii7' or notechords[c] == 'ii7/bVI'):
+            counter[178] += 1     
+        if notes[c] == '2' and (notechords[c] == 'vii' or notechords[c] == 'ii7/vi' or notechords[c] == 'vii64'):
+            counter[179] += 1     
+
+        if notes[c] == '3' and (notechords[c] == 'i' or notechords[c] == 'i42' or notechords[c] == 'i6' or notechords[c] == 'i7' or notechords[c] == 'i9' or notechords[c] == 'ii7/bVII'):
+            counter[180] += 1
+        if notes[c] == '3' and notechords[c] == 'i#':
+            counter[181] += 1            
+        if notes[c] == '3' and (notechords[c] == 'ii' or notechords[c] == 'ii6' or notechords[c] == 'ii65' or notechords[c] == 'ii7' or notechords[c] == 'ii9' or notechords[c] == 'iih42' or notechords[c] == 'iih43'):
+            counter[182] += 1                
+        if notes[c] == '3' and (notechords[c] == 'biii' or notechords[c] == 'biii7'):
+            counter[183] += 1         
+        if notes[c] == '3' and (notechords[c] == 'iii' or notechords[c] == 'iih43/ii' or notechords[c] == 'iii6' or notechords[c] == 'iii64' or notechords[c] == 'iii7'):
+            counter[184] += 1       
+        if notes[c] == '3' and (notechords[c] == 'iv' or notechords[c] == 'iv64' or notechords[c] == 'iv65' or notechords[c] == 'iv7'):
+            counter[185] += 1         
+        if notes[c] == '3' and notechords[c] == '#iv':
+            counter[186] += 1
+        if notes[c] == '3' and (notechords[c] == 'v' or notechords[c] == 'ii/IV' or notechords[c] == 'v6' or notechords[c] == 'v64' or notechords[c] == 'v65' or notechords[c] == 'v7'):
+            counter[187] += 1            
+        if notes[c] == '3' and notechords[c] == 'bvi':
+            counter[188] += 1                
+        if notes[c] == '3' and (notechords[c] == 'vi' or notechords[c] == 'ii/V' or notechords[c] == 'vi6' or notechords[c] == 'vi64' or notechords[c] == 'vi7' or notechords[c] == 'vi9'):
+            counter[189] += 1                
+        if notes[c] == '3' and (notechords[c] == 'bvii' or notechords[c] == 'bvii7' or notechords[c] == 'ii7/bVI'):
+            counter[190] += 1     
+        if notes[c] == '3' and (notechords[c] == 'vii' or notechords[c] == 'ii7/vi' or notechords[c] == 'vii64'):
+            counter[191] += 1  
+            
+        if notes[c] == '4' and (notechords[c] == 'i' or notechords[c] == 'i42' or notechords[c] == 'i6' or notechords[c] == 'i7' or notechords[c] == 'i9' or notechords[c] == 'ii7/bVII'):
+            counter[192] += 1
+        if notes[c] == '4' and notechords[c] == 'i#':
+            counter[193] += 1            
+        if notes[c] == '4' and (notechords[c] == 'ii' or notechords[c] == 'ii6' or notechords[c] == 'ii65' or notechords[c] == 'ii7' or notechords[c] == 'ii9' or notechords[c] == 'iih42' or notechords[c] == 'iih43'):
+            counter[194] += 1                
+        if notes[c] == '4' and (notechords[c] == 'biii' or notechords[c] == 'biii7'):
+            counter[195] += 1         
+        if notes[c] == '4' and (notechords[c] == 'iii' or notechords[c] == 'iih43/ii' or notechords[c] == 'iii6' or notechords[c] == 'iii64' or notechords[c] == 'iii7'):
+            counter[196] += 1         
+        if notes[c] == '4' and (notechords[c] == 'iv' or notechords[c] == 'iv64' or notechords[c] == 'iv65' or notechords[c] == 'iv7'):
+            counter[197] += 1         
+        if notes[c] == '4' and notechords[c] == '#iv':
+            counter[198] += 1
+        if notes[c] == '4' and (notechords[c] == 'v' or notechords[c] == 'ii/IV' or notechords[c] == 'v6' or notechords[c] == 'v64' or notechords[c] == 'v65' or notechords[c] == 'v7'):
+            counter[199] += 1            
+        if notes[c] == '4' and notechords[c] == 'bvi':
+            counter[200] += 1                
+        if notes[c] == '4' and (notechords[c] == 'vi' or notechords[c] == 'ii/V' or notechords[c] == 'vi6' or notechords[c] == 'vi64' or notechords[c] == 'vi7' or notechords[c] == 'vi9'):
+            counter[201] += 1                
+        if notes[c] == '4' and (notechords[c] == 'bvii' or notechords[c] == 'bvii7' or notechords[c] == 'ii7/bVI'):
+            counter[202] += 1     
+        if notes[c] == '4' and (notechords[c] == 'vii' or notechords[c] == 'ii7/vi' or notechords[c] == 'vii64'):
+            counter[203] += 1  
+
+        if notes[c] == '5' and (notechords[c] == 'i' or notechords[c] == 'i42' or notechords[c] == 'i6' or notechords[c] == 'i7' or notechords[c] == 'i9' or notechords[c] == 'ii7/bVII'):
+            counter[204] += 1
+        if notes[c] == '5' and notechords[c] == 'i#':
+            counter[205] += 1            
+        if notes[c] == '5' and (notechords[c] == 'ii' or notechords[c] == 'ii6' or notechords[c] == 'ii65' or notechords[c] == 'ii7' or notechords[c] == 'ii9' or notechords[c] == 'iih42' or notechords[c] == 'iih43'):
+            counter[206] += 1                
+        if notes[c] == '5' and (notechords[c] == 'biii' or notechords[c] == 'biii7'):
+            counter[207] += 1         
+        if notes[c] == '5' and (notechords[c] == 'iii' or notechords[c] == 'iih43/ii' or notechords[c] == 'iii6' or notechords[c] == 'iii64' or notechords[c] == 'iii7'):
+            counter[208] += 1         
+        if notes[c] == '5' and (notechords[c] == 'iv' or notechords[c] == 'iv64' or notechords[c] == 'iv65' or notechords[c] == 'iv7'):
+            counter[209] += 1         
+        if notes[c] == '5' and notechords[c] == '#iv':
+            counter[210] += 1
+        if notes[c] == '5' and (notechords[c] == 'v' or notechords[c] == 'ii/IV' or notechords[c] == 'v6' or notechords[c] == 'v64' or notechords[c] == 'v65' or notechords[c] == 'v7'):
+            counter[211] += 1            
+        if notes[c] == '5' and notechords[c] == 'bvi':
+            counter[212] += 1                
+        if notes[c] == '5' and (notechords[c] == 'vi' or notechords[c] == 'ii/V' or notechords[c] == 'vi6' or notechords[c] == 'vi64' or notechords[c] == 'vi7' or notechords[c] == 'vi9'):
+            counter[213] += 1                
+        if notes[c] == '5' and (notechords[c] == 'bvii' or notechords[c] == 'bvii7' or notechords[c] == 'ii7/bVI'):
+            counter[214] += 1     
+        if notes[c] == '5' and (notechords[c] == 'vii' or notechords[c] == 'ii7/vi' or notechords[c] == 'vii64'):
+            counter[215] += 1  
+            
+        if notes[c] == '6' and (notechords[c] == 'i' or notechords[c] == 'i42' or notechords[c] == 'i6' or notechords[c] == 'i7' or notechords[c] == 'i9' or notechords[c] == 'ii7/bVII'):
+            counter[216] += 1
+        if notes[c] == '6' and notechords[c] == 'i#':
+            counter[217] += 1            
+        if notes[c] == '6' and (notechords[c] == 'ii' or notechords[c] == 'ii6' or notechords[c] == 'ii65' or notechords[c] == 'ii7' or notechords[c] == 'ii9' or notechords[c] == 'iih42' or notechords[c] == 'iih43'):
+            counter[218] += 1                
+        if notes[c] == '6' and (notechords[c] == 'biii' or notechords[c] == 'biii7'):
+            counter[219] += 1         
+        if notes[c] == '6' and (notechords[c] == 'iii' or notechords[c] == 'iih43/ii' or notechords[c] == 'iii6' or notechords[c] == 'iii64' or notechords[c] == 'iii7'):
+            counter[220] += 1         
+        if notes[c] == '6' and (notechords[c] == 'iv' or notechords[c] == 'iv64' or notechords[c] == 'iv65' or notechords[c] == 'iv7'):
+            counter[221] += 1         
+        if notes[c] == '6' and notechords[c] == '#iv':
+            counter[222] += 1
+        if notes[c] == '6' and (notechords[c] == 'v' or notechords[c] == 'ii/IV' or notechords[c] == 'v6' or notechords[c] == 'v64' or notechords[c] == 'v65' or notechords[c] == 'v7'):
+            counter[223] += 1            
+        if notes[c] == '6' and notechords[c] == 'bvi':
+            counter[224] += 1                
+        if notes[c] == '6' and (notechords[c] == 'vi' or notechords[c] == 'ii/V' or notechords[c] == 'vi6' or notechords[c] == 'vi64' or notechords[c] == 'vi7' or notechords[c] == 'vi9'):
+            counter[225] += 1                
+        if notes[c] == '6' and (notechords[c] == 'bvii' or notechords[c] == 'bvii7' or notechords[c] == 'ii7/bVI'):
+            counter[226] += 1     
+        if notes[c] == '6' and (notechords[c] == 'vii' or notechords[c] == 'ii7/vi' or notechords[c] == 'vii64'):
+            counter[227] += 1              
+            
+        if notes[c] == '7' and (notechords[c] == 'i' or notechords[c] == 'i42' or notechords[c] == 'i6' or notechords[c] == 'i7' or notechords[c] == 'i9' or notechords[c] == 'ii7/bVII'):
+            counter[228] += 1
+        if notes[c] == '7' and notechords[c] == 'i#':
+            counter[229] += 1            
+        if notes[c] == '7' and (notechords[c] == 'ii' or notechords[c] == 'ii6' or notechords[c] == 'ii65' or notechords[c] == 'ii7' or notechords[c] == 'ii9' or notechords[c] == 'iih42' or notechords[c] == 'iih43'):
+            counter[230] += 1                
+        if notes[c] == '7' and (notechords[c] == 'biii' or notechords[c] == 'biii7'):
+            counter[231] += 1         
+        if notes[c] == '7' and (notechords[c] == 'iii' or notechords[c] == 'iih43/ii' or notechords[c] == 'iii6' or notechords[c] == 'iii64' or notechords[c] == 'iii7'):
+            counter[232] += 1         
+        if notes[c] == '7' and (notechords[c] == 'iv' or notechords[c] == 'iv64' or notechords[c] == 'iv65' or notechords[c] == 'iv7'):
+            counter[233] += 1         
+        if notes[c] == '7' and notechords[c] == '#iv':
+            counter[234] += 1
+        if notes[c] == '7' and (notechords[c] == 'v' or notechords[c] == 'ii/IV' or notechords[c] == 'v6' or notechords[c] == 'v64' or notechords[c] == 'v65' or notechords[c] == 'v7'):
+            counter[235] += 1            
+        if notes[c] == '7' and notechords[c] == 'bvi':
+            counter[236] += 1                
+        if notes[c] == '7' and (notechords[c] == 'vi' or notechords[c] == 'ii/V' or notechords[c] == 'vi6' or notechords[c] == 'vi64' or notechords[c] == 'vi7' or notechords[c] == 'vi9'):
+            counter[237] += 1                
+        if notes[c] == '7' and (notechords[c] == 'bvii' or notechords[c] == 'bvii7' or notechords[c] == 'ii7/bVI'):
+            counter[238] += 1     
+        if notes[c] == '7' and (notechords[c] == 'vii' or notechords[c] == 'ii7/vi' or notechords[c] == 'vii64'):
+            counter[239] += 1                
+
+        if notes[c] == '8' and (notechords[c] == 'i' or notechords[c] == 'i42' or notechords[c] == 'i6' or notechords[c] == 'i7' or notechords[c] == 'i9' or notechords[c] == 'ii7/bVII'):
+            counter[240] += 1
+        if notes[c] == '8' and notechords[c] == 'i#':
+            counter[241] += 1            
+        if notes[c] == '8' and (notechords[c] == 'ii' or notechords[c] == 'ii6' or notechords[c] == 'ii65' or notechords[c] == 'ii7' or notechords[c] == 'ii9' or notechords[c] == 'iih42' or notechords[c] == 'iih43'):
+            counter[242] += 1                
+        if notes[c] == '8' and (notechords[c] == 'biii' or notechords[c] == 'biii7'):
+            counter[243] += 1         
+        if notes[c] == '8' and (notechords[c] == 'iii' or notechords[c] == 'iih43/ii' or notechords[c] == 'iii6' or notechords[c] == 'iii64' or notechords[c] == 'iii7'):
+            counter[244] += 1         
+        if notes[c] == '8' and (notechords[c] == 'iv' or notechords[c] == 'iv64' or notechords[c] == 'iv65' or notechords[c] == 'iv7'):
+            counter[245] += 1         
+        if notes[c] == '8' and notechords[c] == '#iv':
+            counter[246] += 1
+        if notes[c] == '8' and (notechords[c] == 'v' or notechords[c] == 'ii/IV' or notechords[c] == 'v6' or notechords[c] == 'v64' or notechords[c] == 'v65' or notechords[c] == 'v7'):
+            counter[247] += 1            
+        if notes[c] == '8' and notechords[c] == 'bvi':
+            counter[248] += 1                
+        if notes[c] == '8' and (notechords[c] == 'vi' or notechords[c] == 'ii/V' or notechords[c] == 'vi6' or notechords[c] == 'vi64' or notechords[c] == 'vi7' or notechords[c] == 'vi9'):
+            counter[249] += 1                
+        if notes[c] == '8' and (notechords[c] == 'bvii' or notechords[c] == 'bvii7' or notechords[c] == 'ii7/bVI'):
+            counter[250] += 1     
+        if notes[c] == '8' and (notechords[c] == 'vii' or notechords[c] == 'ii7/vi' or notechords[c] == 'vii64'):
+            counter[251] += 1    
+
+        if notes[c] == '9' and (notechords[c] == 'i' or notechords[c] == 'i42' or notechords[c] == 'i6' or notechords[c] == 'i7' or notechords[c] == 'i9' or notechords[c] == 'ii7/bVII'):
+            counter[252] += 1
+        if notes[c] == '9' and notechords[c] == 'i#':
+            counter[253] += 1            
+        if notes[c] == '9' and (notechords[c] == 'ii' or notechords[c] == 'ii6' or notechords[c] == 'ii65' or notechords[c] == 'ii7' or notechords[c] == 'ii9' or notechords[c] == 'iih42' or notechords[c] == 'iih43'):
+            counter[254] += 1                
+        if notes[c] == '9' and (notechords[c] == 'biii' or notechords[c] == 'biii7'):
+            counter[255] += 1         
+        if notes[c] == '9' and (notechords[c] == 'iii' or notechords[c] == 'iih43/ii' or notechords[c] == 'iii6' or notechords[c] == 'iii64' or notechords[c] == 'iii7'):
+            counter[256] += 1         
+        if notes[c] == '9' and (notechords[c] == 'iv' or notechords[c] == 'iv64' or notechords[c] == 'iv65' or notechords[c] == 'iv7'):
+            counter[257] += 1         
+        if notes[c] == '9' and notechords[c] == '#iv':
+            counter[258] += 1
+        if notes[c] == '9' and (notechords[c] == 'v' or notechords[c] == 'ii/IV' or notechords[c] == 'v6' or notechords[c] == 'v64' or notechords[c] == 'v65' or notechords[c] == 'v7'):
+            counter[259] += 1            
+        if notes[c] == '9' and notechords[c] == 'bvi':
+            counter[260] += 1                
+        if notes[c] == '9' and (notechords[c] == 'vi' or notechords[c] == 'ii/V' or notechords[c] == 'vi6' or notechords[c] == 'vi64' or notechords[c] == 'vi7' or notechords[c] == 'vi9'):
+            counter[261] += 1                
+        if notes[c] == '9' and (notechords[c] == 'bvii' or notechords[c] == 'bvii7' or notechords[c] == 'ii7/bVI'):
+            counter[262] += 1     
+        if notes[c] == '9' and (notechords[c] == 'vii' or notechords[c] == 'ii7/vi' or notechords[c] == 'vii64'):
+            counter[263] += 1    
+
+        if notes[c] == '10' and (notechords[c] == 'i' or notechords[c] == 'i42' or notechords[c] == 'i6' or notechords[c] == 'i7' or notechords[c] == 'i9' or notechords[c] == 'ii7/bVII'):
+            counter[264] += 1
+        if notes[c] == '10' and notechords[c] == 'i#':
+            counter[265] += 1            
+        if notes[c] == '10' and (notechords[c] == 'ii' or notechords[c] == 'ii6' or notechords[c] == 'ii65' or notechords[c] == 'ii7' or notechords[c] == 'ii9' or notechords[c] == 'iih42' or notechords[c] == 'iih43'):
+            counter[266] += 1                
+        if notes[c] == '10' and (notechords[c] == 'biii' or notechords[c] == 'biii7'):
+            counter[267] += 1         
+        if notes[c] == '10' and (notechords[c] == 'iii' or notechords[c] == 'iih43/ii' or notechords[c] == 'iii6' or notechords[c] == 'iii64' or notechords[c] == 'iii7'):
+            counter[268] += 1         
+        if notes[c] == '10' and (notechords[c] == 'iv' or notechords[c] == 'iv64' or notechords[c] == 'iv65' or notechords[c] == 'iv7'):
+            counter[269] += 1         
+        if notes[c] == '10' and notechords[c] == '#iv':
+            counter[270] += 1
+        if notes[c] == '10' and (notechords[c] == 'v' or notechords[c] == 'ii/IV' or notechords[c] == 'v6' or notechords[c] == 'v64' or notechords[c] == 'v65' or notechords[c] == 'v7'):
+            counter[271] += 1            
+        if notes[c] == '10' and notechords[c] == 'bvi':
+            counter[272] += 1                
+        if notes[c] == '10' and (notechords[c] == 'vi' or notechords[c] == 'ii/V' or notechords[c] == 'vi6' or notechords[c] == 'vi64' or notechords[c] == 'vi7' or notechords[c] == 'vi9'):
+            counter[273] += 1                
+        if notes[c] == '10' and (notechords[c] == 'bvii' or notechords[c] == 'bvii7' or notechords[c] == 'ii7/bVI'):
+            counter[274] += 1     
+        if notes[c] == '10' and (notechords[c] == 'vii' or notechords[c] == 'ii7/vi' or notechords[c] == 'vii64'):
+            counter[275] += 1 
+
+        if notes[c] == '11' and (notechords[c] == 'i' or notechords[c] == 'i42' or notechords[c] == 'i6' or notechords[c] == 'i7' or notechords[c] == 'i9' or notechords[c] == 'ii7/bVII'):
+            counter[276] += 1
+        if notes[c] == '11' and notechords[c] == 'i#':
+            counter[277] += 1            
+        if notes[c] == '11' and (notechords[c] == 'ii' or notechords[c] == 'ii6' or notechords[c] == 'ii65' or notechords[c] == 'ii7' or notechords[c] == 'ii9' or notechords[c] == 'iih42' or notechords[c] == 'iih43'):
+            counter[278] += 1                
+        if notes[c] == '11' and (notechords[c] == 'biii' or notechords[c] == 'biii7'):
+            counter[279] += 1         
+        if notes[c] == '11' and (notechords[c] == 'iii' or notechords[c] == 'iih43/ii' or notechords[c] == 'iii6' or notechords[c] == 'iii64' or notechords[c] == 'iii7'):
+            counter[280] += 1         
+        if notes[c] == '11' and (notechords[c] == 'iv' or notechords[c] == 'iv64' or notechords[c] == 'iv65' or notechords[c] == 'iv7'):
+            counter[281] += 1         
+        if notes[c] == '11' and notechords[c] == '#iv':
+            counter[282] += 1
+        if notes[c] == '11' and (notechords[c] == 'v' or notechords[c] == 'ii/IV' or notechords[c] == 'v6' or notechords[c] == 'v64' or notechords[c] == 'v65' or notechords[c] == 'v7'):
+            counter[283] += 1            
+        if notes[c] == '11' and notechords[c] == 'bvi':
+            counter[284] += 1                
+        if notes[c] == '11' and (notechords[c] == 'vi' or notechords[c] == 'ii/V' or notechords[c] == 'vi6' or notechords[c] == 'vi64' or notechords[c] == 'vi7' or notechords[c] == 'vi9'):
+            counter[285] += 1                
+        if notes[c] == '11' and (notechords[c] == 'bvii' or notechords[c] == 'bvii7' or notechords[c] == 'ii7/bVI'):
+            counter[286] += 1     
+        if notes[c] == '11' and (notechords[c] == 'vii' or notechords[c] == 'ii7/vi' or notechords[c] == 'vii64'):
+            counter[287] += 1 
+
+            
+#Diminished
+
+        if notes[c] == '0' and (notechords[c] == 'io' or notechords[c] == 'viio/ii' or notechords[c] == 'viix7/ii'):
+            counter[288] += 1
+        if notes[c] == '0' and notechords[c] == 'i#o':
+            counter[289] += 1            
+        if notes[c] == '0' and (notechords[c] == 'iio' or notechords[c] == 'iih65' or notechords[c] == 'iih7' or notechords[c] == 'iio7'):
+            counter[290] += 1                
+        if notes[c] == '0' and notechords[c] == 'biiio':
+            counter[291] += 1         
+        if notes[c] == '0' and (notechords[c] == 'iiio' or notechords[c] == 'iih65/ii'):
+            counter[292] += 1         
+        if notes[c] == '0' and (notechords[c] == 'ivo' or notechords[c] == 'viio/V' or notechords[c] == 'viix42/V' or notechords[c] == 'viix43/V' or notechords[c] == 'viix7/V'):
+            counter[293] += 1         
+        if notes[c] == '0' and notechords[c] == '#ivo':
+            counter[294] += 1
+        if notes[c] == '0' and (notechords[c] == 'vo' or notechords[c] == 'viix7/vi'):
+            counter[295] += 1            
+        if notes[c] == '0' and notechords[c] == 'bvio':
+            counter[296] += 1                
+        if notes[c] == '0' and (notechords[c] == 'vio' or notechords[c] == 'vih7' or notechords[c] == 'iih7/V'):
+            counter[297] += 1                
+        if notes[c] == '0' and notechords[c] == 'bviio':
+            counter[298] += 1     
+        if notes[c] == '0' and (notechords[c] == 'viio' or notechords[c] == 'iih7/vi' or notechords[c] == 'viih7'):
+            counter[299] += 1         
+
+        if notes[c] == '1' and (notechords[c] == 'io' or notechords[c] == 'viio/ii' or notechords[c] == 'viix7/ii'):
+            counter[300] += 1
+        if notes[c] == '1' and notechords[c] == 'i#o':
+            counter[301] += 1            
+        if notes[c] == '1' and (notechords[c] == 'iio' or notechords[c] == 'iih65' or notechords[c] == 'iih7' or notechords[c] == 'iio7'):
+            counter[302] += 1                
+        if notes[c] == '1' and notechords[c] == 'biiio':
+            counter[303] += 1         
+        if notes[c] == '1' and (notechords[c] == 'iiio' or notechords[c] == 'iih65/ii'):
+            counter[304] += 1         
+        if notes[c] == '1' and (notechords[c] == 'ivo' or notechords[c] == 'viio/V' or notechords[c] == 'viix42/V' or notechords[c] == 'viix43/V' or notechords[c] == 'viix7/V'):
+            counter[305] += 1         
+        if notes[c] == '1' and notechords[c] == '#ivo':
+            counter[306] += 1
+        if notes[c] == '1' and (notechords[c] == 'vo' or notechords[c] == 'viix7/vi'):
+            counter[307] += 1            
+        if notes[c] == '1' and notechords[c] == 'bvio':
+            counter[308] += 1                
+        if notes[c] == '1' and (notechords[c] == 'vio' or notechords[c] == 'vih7' or notechords[c] == 'iih7/V'):
+            counter[309] += 1                
+        if notes[c] == '1' and notechords[c] == 'bviio':
+            counter[310] += 1     
+        if notes[c] == '1' and (notechords[c] == 'viio' or notechords[c] == 'iih7/vi' or notechords[c] == 'viih7'):
+            counter[311] += 1       
+
+        if notes[c] == '2' and (notechords[c] == 'io' or notechords[c] == 'viio/ii' or notechords[c] == 'viix7/ii'):
+            counter[312] += 1
+        if notes[c] == '2' and notechords[c] == 'i#o':
+            counter[313] += 1            
+        if notes[c] == '2' and (notechords[c] == 'iio' or notechords[c] == 'iih65' or notechords[c] == 'iih7' or notechords[c] == 'iio7'):
+            counter[314] += 1                
+        if notes[c] == '2' and notechords[c] == 'biiio':
+            counter[315] += 1         
+        if notes[c] == '2' and (notechords[c] == 'iiio' or notechords[c] == 'iih65/ii'):
+            counter[316] += 1         
+        if notes[c] == '2' and (notechords[c] == 'ivo' or notechords[c] == 'viio/V' or notechords[c] == 'viix42/V' or notechords[c] == 'viix43/V' or notechords[c] == 'viix7/V'):
+            counter[317] += 1         
+        if notes[c] == '2' and notechords[c] == '#ivo':
+            counter[318] += 1
+        if notes[c] == '2' and (notechords[c] == 'vo' or notechords[c] == 'viix7/vi'):
+            counter[319] += 1            
+        if notes[c] == '2' and notechords[c] == 'bvio':
+            counter[320] += 1               
+        if notes[c] == '2' and (notechords[c] == 'vio' or notechords[c] == 'vih7' or notechords[c] == 'iih7/V'):
+            counter[321] += 1                
+        if notes[c] == '2' and notechords[c] == 'bviio':
+            counter[322] += 1     
+        if notes[c] == '2' and (notechords[c] == 'viio' or notechords[c] == 'iih7/vi' or notechords[c] == 'viih7'):
+            counter[323] += 1 
+            
+        if notes[c] == '3' and (notechords[c] == 'io' or notechords[c] == 'viio/ii' or notechords[c] == 'viix7/ii'):
+            counter[324] += 1
+        if notes[c] == '3' and notechords[c] == 'i#o':
+            counter[325] += 1            
+        if notes[c] == '3' and (notechords[c] == 'iio' or notechords[c] == 'iih65' or notechords[c] == 'iih7' or notechords[c] == 'iio7'):
+            counter[326] += 1                
+        if notes[c] == '3' and notechords[c] == 'biiio':
+            counter[327] += 1         
+        if notes[c] == '3' and (notechords[c] == 'iiio' or notechords[c] == 'iih65/ii'):
+            counter[328] += 1         
+        if notes[c] == '3' and (notechords[c] == 'ivo' or notechords[c] == 'viio/V' or notechords[c] == 'viix42/V' or notechords[c] == 'viix43/V' or notechords[c] == 'viix7/V'):
+            counter[329] += 1         
+        if notes[c] == '3' and notechords[c] == '#ivo':
+            counter[330] += 1
+        if notes[c] == '3' and (notechords[c] == 'vo' or notechords[c] == 'viix7/vi'):
+            counter[331] += 1            
+        if notes[c] == '3' and notechords[c] == 'bvio':
+            counter[332] += 1               
+        if notes[c] == '3' and (notechords[c] == 'vio' or notechords[c] == 'vih7' or notechords[c] == 'iih7/V'):
+            counter[333] += 1                
+        if notes[c] == '3' and notechords[c] == 'bviio':
+            counter[334] += 1     
+        if notes[c] == '3' and (notechords[c] == 'viio' or notechords[c] == 'iih7/vi' or notechords[c] == 'viih7'):
+            counter[335] += 1 
+            
+        if notes[c] == '4' and (notechords[c] == 'io' or notechords[c] == 'viio/ii' or notechords[c] == 'viix7/ii'):
+            counter[336] += 1
+        if notes[c] == '4' and notechords[c] == 'i#o':
+            counter[337] += 1            
+        if notes[c] == '4' and (notechords[c] == 'iio' or notechords[c] == 'iih65' or notechords[c] == 'iih7' or notechords[c] == 'iio7'):
+            counter[338] += 1                
+        if notes[c] == '4' and notechords[c] == 'biiio':
+            counter[339] += 1         
+        if notes[c] == '4' and (notechords[c] == 'iiio' or notechords[c] == 'iih65/ii'):
+            counter[340] += 1         
+        if notes[c] == '4' and (notechords[c] == 'ivo' or notechords[c] == 'viio/V' or notechords[c] == 'viix42/V' or notechords[c] == 'viix43/V' or notechords[c] == 'viix7/V'):
+            counter[341] += 1         
+        if notes[c] == '4' and notechords[c] == '#ivo':
+            counter[342] += 1
+        if notes[c] == '4' and (notechords[c] == 'vo' or notechords[c] == 'viix7/vi'):
+            counter[343] += 1            
+        if notes[c] == '4' and notechords[c] == 'bvio':
+            counter[344] += 1               
+        if notes[c] == '4' and (notechords[c] == 'vio' or notechords[c] == 'vih7' or notechords[c] == 'iih7/V'):
+            counter[345] += 1                
+        if notes[c] == '4' and notechords[c] == 'bviio':
+            counter[346] += 1     
+        if notes[c] == '4' and (notechords[c] == 'viio' or notechords[c] == 'iih7/vi' or notechords[c] == 'viih7'):
+            counter[347] += 1 
+
+        if notes[c] == '5' and (notechords[c] == 'io' or notechords[c] == 'viio/ii' or notechords[c] == 'viix7/ii'):
+            counter[348] += 1
+        if notes[c] == '5' and notechords[c] == 'i#o':
+            counter[349] += 1            
+        if notes[c] == '5' and (notechords[c] == 'iio' or notechords[c] == 'iih65' or notechords[c] == 'iih7' or notechords[c] == 'iio7'):
+            counter[350] += 1                
+        if notes[c] == '5' and notechords[c] == 'biiio':
+            counter[351] += 1         
+        if notes[c] == '5' and (notechords[c] == 'iiio' or notechords[c] == 'iih65/ii'):
+            counter[352] += 1         
+        if notes[c] == '5' and (notechords[c] == 'ivo' or notechords[c] == 'viio/V' or notechords[c] == 'viix42/V' or notechords[c] == 'viix43/V' or notechords[c] == 'viix7/V'):
+            counter[353] += 1         
+        if notes[c] == '5' and notechords[c] == '#ivo':
+            counter[354] += 1
+        if notes[c] == '5' and (notechords[c] == 'vo' or notechords[c] == 'viix7/vi'):
+            counter[355] += 1            
+        if notes[c] == '5' and notechords[c] == 'bvio':
+            counter[356] += 1               
+        if notes[c] == '5' and (notechords[c] == 'vio' or notechords[c] == 'vih7' or notechords[c] == 'iih7/V'):
+            counter[357] += 1                
+        if notes[c] == '5' and notechords[c] == 'bviio':
+            counter[358] += 1     
+        if notes[c] == '5' and (notechords[c] == 'viio' or notechords[c] == 'iih7/vi' or notechords[c] == 'viih7'):
+            counter[359] += 1 
+
+        if notes[c] == '6' and (notechords[c] == 'io' or notechords[c] == 'viio/ii' or notechords[c] == 'viix7/ii'):
+            counter[360] += 1
+        if notes[c] == '6' and notechords[c] == 'i#o':
+            counter[361] += 1            
+        if notes[c] == '6' and (notechords[c] == 'iio' or notechords[c] == 'iih65' or notechords[c] == 'iih7' or notechords[c] == 'iio7'):
+            counter[362] += 1                
+        if notes[c] == '6' and notechords[c] == 'biiio':
+            counter[363] += 1         
+        if notes[c] == '6' and (notechords[c] == 'iiio' or notechords[c] == 'iih65/ii'):
+            counter[364] += 1         
+        if notes[c] == '6' and (notechords[c] == 'ivo' or notechords[c] == 'viio/V' or notechords[c] == 'viix42/V' or notechords[c] == 'viix43/V' or notechords[c] == 'viix7/V'):
+            counter[365] += 1         
+        if notes[c] == '6' and notechords[c] == '#ivo':
+            counter[366] += 1
+        if notes[c] == '6' and (notechords[c] == 'vo' or notechords[c] == 'viix7/vi'):
+            counter[367] += 1            
+        if notes[c] == '6' and notechords[c] == 'bvio':
+            counter[368] += 1               
+        if notes[c] == '6' and (notechords[c] == 'vio' or notechords[c] == 'vih7' or notechords[c] == 'iih7/V'):
+            counter[369] += 1                
+        if notes[c] == '6' and notechords[c] == 'bviio':
+            counter[370] += 1     
+        if notes[c] == '6' and (notechords[c] == 'viio' or notechords[c] == 'iih7/vi' or notechords[c] == 'viih7'):
+            counter[371] += 1 
+            
+        if notes[c] == '7' and (notechords[c] == 'io' or notechords[c] == 'viio/ii' or notechords[c] == 'viix7/ii'):
+            counter[372] += 1
+        if notes[c] == '7' and notechords[c] == 'i#o':
+            counter[373] += 1            
+        if notes[c] == '7' and (notechords[c] == 'iio' or notechords[c] == 'iih65' or notechords[c] == 'iih7' or notechords[c] == 'iio7'):
+            counter[374] += 1                
+        if notes[c] == '7' and notechords[c] == 'biiio':
+            counter[375] += 1         
+        if notes[c] == '7' and (notechords[c] == 'iiio' or notechords[c] == 'iih65/ii'):
+            counter[376] += 1         
+        if notes[c] == '7' and (notechords[c] == 'ivo' or notechords[c] == 'viio/V' or notechords[c] == 'viix42/V' or notechords[c] == 'viix43/V' or notechords[c] == 'viix7/V'):
+            counter[377] += 1         
+        if notes[c] == '7' and notechords[c] == '#ivo':
+            counter[378] += 1
+        if notes[c] == '7' and (notechords[c] == 'vo' or notechords[c] == 'viix7/vi'):
+            counter[379] += 1            
+        if notes[c] == '7' and notechords[c] == 'bvio':
+            counter[380] += 1               
+        if notes[c] == '7' and (notechords[c] == 'vio' or notechords[c] == 'vih7' or notechords[c] == 'iih7/V'):
+            counter[381] += 1                
+        if notes[c] == '7' and notechords[c] == 'bviio':
+            counter[382] += 1     
+        if notes[c] == '7' and (notechords[c] == 'viio' or notechords[c] == 'iih7/vi' or notechords[c] == 'viih7'):
+            counter[383] += 1 
+
+        if notes[c] == '8' and (notechords[c] == 'io' or notechords[c] == 'viio/ii' or notechords[c] == 'viix7/ii'):
+            counter[384] += 1
+        if notes[c] == '8' and notechords[c] == 'i#o':
+            counter[385] += 1            
+        if notes[c] == '8' and (notechords[c] == 'iio' or notechords[c] == 'iih65' or notechords[c] == 'iih7' or notechords[c] == 'iio7'):
+            counter[386] += 1                
+        if notes[c] == '8' and notechords[c] == 'biiio':
+            counter[387] += 1         
+        if notes[c] == '8' and (notechords[c] == 'iiio' or notechords[c] == 'iih65/ii'):
+            counter[388] += 1         
+        if notes[c] == '8' and (notechords[c] == 'ivo' or notechords[c] == 'viio/V' or notechords[c] == 'viix42/V' or notechords[c] == 'viix43/V' or notechords[c] == 'viix7/V'):
+            counter[389] += 1         
+        if notes[c] == '8' and notechords[c] == '#ivo':
+            counter[390] += 1
+        if notes[c] == '8' and (notechords[c] == 'vo' or notechords[c] == 'viix7/vi'):
+            counter[391] += 1            
+        if notes[c] == '8' and notechords[c] == 'bvio':
+            counter[392] += 1               
+        if notes[c] == '8' and (notechords[c] == 'vio' or notechords[c] == 'vih7' or notechords[c] == 'iih7/V'):
+            counter[393] += 1                
+        if notes[c] == '8' and notechords[c] == 'bviio':
+            counter[394] += 1     
+        if notes[c] == '8' and (notechords[c] == 'viio' or notechords[c] == 'iih7/vi' or notechords[c] == 'viih7'):
+            counter[395] += 1
+            
+        if notes[c] == '9' and (notechords[c] == 'io' or notechords[c] == 'viio/ii' or notechords[c] == 'viix7/ii'):
+            counter[396] += 1
+        if notes[c] == '9' and notechords[c] == 'i#o':
+            counter[397] += 1            
+        if notes[c] == '9' and (notechords[c] == 'iio' or notechords[c] == 'iih65' or notechords[c] == 'iih7' or notechords[c] == 'iio7'):
+            counter[398] += 1                
+        if notes[c] == '9' and notechords[c] == 'biiio':
+            counter[399] += 1         
+        if notes[c] == '9' and (notechords[c] == 'iiio' or notechords[c] == 'iih65/ii'):
+            counter[400] += 1         
+        if notes[c] == '9' and (notechords[c] == 'ivo' or notechords[c] == 'viio/V' or notechords[c] == 'viix42/V' or notechords[c] == 'viix43/V' or notechords[c] == 'viix7/V'):
+            counter[401] += 1         
+        if notes[c] == '9' and notechords[c] == '#ivo':
+            counter[402] += 1
+        if notes[c] == '9' and (notechords[c] == 'vo' or notechords[c] == 'viix7/vi'):
+            counter[403] += 1            
+        if notes[c] == '9' and notechords[c] == 'bvio':
+            counter[404] += 1               
+        if notes[c] == '9' and (notechords[c] == 'vio' or notechords[c] == 'vih7' or notechords[c] == 'iih7/V'):
+            counter[405] += 1                
+        if notes[c] == '9' and notechords[c] == 'bviio':
+            counter[406] += 1     
+        if notes[c] == '9' and (notechords[c] == 'viio' or notechords[c] == 'iih7/vi' or notechords[c] == 'viih7'):
+            counter[407] += 1 
+
+        if notes[c] == '10' and (notechords[c] == 'io' or notechords[c] == 'viio/ii' or notechords[c] == 'viix7/ii'):
+            counter[408] += 1
+        if notes[c] == '10' and notechords[c] == 'i#o':
+            counter[409] += 1            
+        if notes[c] == '10' and (notechords[c] == 'iio' or notechords[c] == 'iih65' or notechords[c] == 'iih7' or notechords[c] == 'iio7'):
+            counter[410] += 1                
+        if notes[c] == '10' and notechords[c] == 'biiio':
+            counter[411] += 1         
+        if notes[c] == '10' and (notechords[c] == 'iiio' or notechords[c] == 'iih65/ii'):
+            counter[412] += 1         
+        if notes[c] == '10' and (notechords[c] == 'ivo' or notechords[c] == 'viio/V' or notechords[c] == 'viix42/V' or notechords[c] == 'viix43/V' or notechords[c] == 'viix7/V'):
+            counter[413] += 1         
+        if notes[c] == '10' and notechords[c] == '#ivo':
+            counter[414] += 1
+        if notes[c] == '10' and (notechords[c] == 'vo' or notechords[c] == 'viix7/vi'):
+            counter[415] += 1            
+        if notes[c] == '10' and notechords[c] == 'bvio':
+            counter[416] += 1               
+        if notes[c] == '10' and (notechords[c] == 'vio' or notechords[c] == 'vih7' or notechords[c] == 'iih7/V'):
+            counter[417] += 1                
+        if notes[c] == '10' and notechords[c] == 'bviio':
+            counter[418] += 1     
+        if notes[c] == '10' and (notechords[c] == 'viio' or notechords[c] == 'iih7/vi' or notechords[c] == 'viih7'):
+            counter[419] += 1 
+
+        if notes[c] == '11' and (notechords[c] == 'io' or notechords[c] == 'viio/ii' or notechords[c] == 'viix7/ii'):
+            counter[420] += 1
+        if notes[c] == '11' and notechords[c] == 'i#o':
+            counter[421] += 1            
+        if notes[c] == '11' and (notechords[c] == 'iio' or notechords[c] == 'iih65' or notechords[c] == 'iih7' or notechords[c] == 'iio7'):
+            counter[422] += 1                
+        if notes[c] == '11' and notechords[c] == 'biiio':
+            counter[423] += 1         
+        if notes[c] == '11' and (notechords[c] == 'iiio' or notechords[c] == 'iih65/ii'):
+            counter[424] += 1         
+        if notes[c] == '11' and (notechords[c] == 'ivo' or notechords[c] == 'viio/V' or notechords[c] == 'viix42/V' or notechords[c] == 'viix43/V' or notechords[c] == 'viix7/V'):
+            counter[425] += 1         
+        if notes[c] == '11' and notechords[c] == '#ivo':
+            counter[426] += 1
+        if notes[c] == '11' and (notechords[c] == 'vo' or notechords[c] == 'viix7/vi'):
+            counter[427] += 1            
+        if notes[c] == '11' and notechords[c] == 'bvio':
+            counter[428] += 1               
+        if notes[c] == '11' and (notechords[c] == 'vio' or notechords[c] == 'vih7' or notechords[c] == 'iih7/V'):
+            counter[429] += 1                
+        if notes[c] == '11' and notechords[c] == 'bviio':
+            counter[430] += 1     
+        if notes[c] == '11' and (notechords[c] == 'viio' or notechords[c] == 'iih7/vi' or notechords[c] == 'viih7'):
+            counter[431] += 1
+        else:
+            counter[432] += 1
+    
+    return [pairs,counter]
+
+
+def liweights(melset,chordset):
+    
+     n=0
+     m=0
+     globalpairs = []
+     globalcounter = []
+     globalnotes = []
+     notes = []
+     chords1 = []
+
+
+     while n < len(melset):
+          [notes,chords1] = getIpairings(melset[n], chordset[n])
+          [globalpairs,globalcounter] = countIpairs(notes,chords1)
+          globalnotes.append(notes)
+          n += 1
+
+     weights = globalcounter  
+     
+    
+     return[globalnotes,weights,globalpairs]

@@ -1,0 +1,136 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Nov  6 11:08:29 2018
+
+@author: jorgeacostadelape
+"""
+
+import numpy as py
+from scipy import stats
+
+iGlobalproposedsequence = k1sequencei+k1sequencei+k1sequencei+k1sequencei
+iGlobalchordsbothset = k1truechordsequence1+k1truechordsequence1+k1truechordsequence1+k1truechordsequence1
+iGlobalchords1set = k1truechordsequence1+k1truechordsequence1+k1truechordsequence1+k1truechordsequence1
+
+[iBS2Sets,ilabel] = countIbigrams(iGlobalproposedsequence)
+isBS2Sets = iBS2Sets
+suma = sum(iBS2Sets)
+suma = float(suma)
+for i in range (len(iBS2Sets)):
+    if iBS2Sets[i] == 0:
+        iBS2Sets[i] = 1
+    isBS2Sets[i] = iBS2Sets[i]/suma
+iPij = np.zeros((36,36))
+
+m = 0
+i = 0
+j = 0
+while i <= 35:
+    j=0
+    while j <= 35:
+        iPij[i][j] = isBS2Sets[m]
+        j += 1
+        m += 1
+    i += 1
+
+[iBGSets1n2,label] = countIbigrams(iGlobalchordsbothset)
+isBGSets1n2 = iBGSets1n2
+suma = sum(iBGSets1n2)
+suma = float(suma)
+for i in range (len(iBGSets1n2)):
+    if iBGSets1n2[i] == 0:
+        iBGSets1n2[i] = 1
+    isBGSets1n2[i] = iBGSets1n2[i]/suma
+iQ1ij = np.zeros((36,36))
+
+m = 0
+i = 0
+j = 0
+while i <= 35:
+    j=0
+    while j <= 35:
+        iQ1ij[i][j] = isBGSets1n2[m]
+        j += 1
+        m += 1
+    i += 1
+
+#[iBGSets1,label] = countIbigrams(iGlobalchords1set)
+#isBGSets1 = iBGSets1
+#suma = sum(iBGSets1)
+#suma = float(suma)
+#for i in range (len(isBGSets1)):
+#    if isBGSets1[i] == 0:
+#        isBGSets1[i] = 1
+#    isBGSets1[i] = isBGSets1[i]/suma
+#iQ2ij = np.zeros((36,36))
+#
+#m = 0
+#i = 0
+#j = 0
+#while i <= 35:
+#    j=0
+#    while j <= 35:
+#        iQ2ij[i][j] = isBGSets1[m]
+#        j += 1
+#        m += 1
+#    i += 1
+
+
+#[iBGSets2,label] = countIbigrams(iGlobalchords2set)
+#isBGSets2 = iBGSets2
+#suma = sum(iBGSets2)
+#suma = float(suma)
+#for i in range (len(isBGSets2)):
+#    if isBGSets2[i] == 0:
+#        isBGSets2[i] = 1
+#    isBGSets2[i] = isBGSets2[i]/suma
+#iQ3ij = np.zeros((36,36))
+
+#m = 0
+#i = 0
+#j = 0
+#while i <= 35:
+#    j=0
+#    while j <= 35:
+#        iQ3ij[i][j] = isBGSets2[m]
+#        j += 1
+#        m += 1
+#    i += 1
+
+
+##Entropy
+is1Pij = iPij
+i = 0
+j = 0
+while i < 36:
+    while j < 36:
+        is1Pij[i][j] = iPij[i][j]*np.log(iPij[i][j]/iQ1ij[i][j])
+        j += 1
+    i += 1
+Entropy1 = sum(sum(is1Pij))
+
+#is2Pij = iPij
+#i = 0
+#j = 0
+#while i < 36:
+#    while j < 36:
+#        is2Pij[i][j] = iPij[i][j]*np.log(iPij[i][j]/iQ2ij[i][j])
+#        j += 1
+#    i += 1
+#
+#Entropy2 = sum(sum(is2Pij))
+#
+#is3Pij = iPij
+#i = 0
+#j = 0
+#while i < 36:
+#    while j < 36:
+#        is3Pij[i][j] = iPij[i][j]*np.log(iPij[i][j]/iQ3ij[i][j])
+#        j += 1
+#    i += 1
+#
+#Entropy3 = sum(sum(is3Pij))
+
+
+

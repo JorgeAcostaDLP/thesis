@@ -1,0 +1,141 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Nov  3 01:42:03 2018
+
+@author: jorgeacostadelape
+"""
+
+import pywrapfst as fst
+import numpy as np 
+
+
+## For T trained individually
+#Info for L ki1
+[globalChordCountT1] = addpairs(iset1pairs,iset2pairs,iset3pairs,iset4pairs,iset5pairs,iset6pairs,iset7pairs,iset8pairs,iset9pairs,iset10pairs,iset11pairs,iset12pairs,iset13pairs,iset14pairs,iset15pairs)
+[totalPairWeightsT1] = totalWeights(globalChordCountT1)
+
+#Info for G
+[globalBigramCountT1] = addbigrams(iset1bigrams,iset2bigrams,iset3bigrams,iset4bigrams,iset5bigrams,iset6bigrams,iset7bigrams,iset8bigrams,iset9bigrams,iset10bigrams,iset11bigrams,iset12bigrams,iset13bigrams,iset14bigrams,iset15bigrams)
+[totalBigramWeightsT1] = totalBigrams(globalBigramCountT1)
+
+#Train L and G and compose for T
+it1 = getLfst(totalPairWeightsT1,totalBigramWeightsT1)
+#
+#Get M and transpose with T for C and compute shortest path (Sequence)
+[melodytestt1] = testmelody(melset16,melset17,melset18,melset19,melset20,ichordset16,ichordset17,ichordset18,ichordset19,ichordset20)
+[mt1,ct1,sequencet1] = getmfst(melodytestt1,it1)
+#
+##Seggested Sequence plus Real Chords for K1
+k1sequencei = getchordsequence(sequencet1)
+#
+
+#Info for L ki2
+[globalChordCountT2] = addpairs(iset6pairs,iset7pairs,iset8pairs,iset9pairs,iset10pairs,iset11pairs,iset12pairs,iset13pairs,iset14pairs,iset15pairs,iset16pairs,iset17pairs,iset18pairs,iset19pairs,iset20pairs)
+[totalPairWeightsT2] = totalWeights(globalChordCountT2)
+
+#Info for G
+[globalBigramCountT2] = addbigrams(iset6bigrams,iset7bigrams,iset8bigrams,iset9bigrams,iset10bigrams,iset11bigrams,iset12bigrams,iset13bigrams,iset14bigrams,iset15bigrams,iset16bigrams,iset17bigrams,iset18bigrams,iset19bigrams,iset20bigrams)
+[totalBigramWeightsT2] = totalBigrams(globalBigramCountT2)
+
+#Train L and G and compose for T
+it2 = getLfst(totalPairWeightsT2,totalBigramWeightsT2)
+#
+#Get M and transpose with T for C and compute shortest path (Sequence)
+[melodytestt2] = testmelody(melset1,melset2,melset3,melset4,melset5,ichordset1,ichordset2,ichordset3,ichordset4,ichordset5)
+[mt2,ct2,sequencet2] = getmfst(melodytestt2,it2)
+#
+##Seggested Sequence plus Real Chords for K1
+k2sequencei = getchordsequence(sequencet2)
+#
+
+#Info for L ki3
+[globalChordCountT3] = addpairs(iset11pairs,iset12pairs,iset13pairs,iset14pairs,iset15pairs,iset16pairs,iset17pairs,iset18pairs,iset19pairs,iset20pairs,iset1pairs,iset2pairs,iset3pairs,iset4pairs,iset5pairs)
+[totalPairWeightsT3] = totalWeights(globalChordCountT3)
+
+#Info for G
+[globalBigramCountT3] = addbigrams(iset11bigrams,iset12bigrams,iset13bigrams,iset14bigrams,iset15bigrams,iset16bigrams,iset17bigrams,iset18bigrams,iset19bigrams,iset20bigrams,iset1bigrams,iset2bigrams,iset3bigrams,iset4bigrams,iset5bigrams)
+[totalBigramWeightsT3] = totalBigrams(globalBigramCountT3)
+
+#Train L and G and compose for T
+it3 = getLfst(totalPairWeightsT3,totalBigramWeightsT3)
+#
+#Get M and transpose with T for C and compute shortest path (Sequence)
+[melodytestt3] = testmelody(melset6,melset7,melset8,melset9,melset10,ichordset6,ichordset7,ichordset8,ichordset9,ichordset10)
+[mt3,ct3,sequencet3] = getmfst(melodytestt3,it3)
+#
+##Seggested Sequence plus Real Chords for K1
+k3sequencei = getchordsequence(sequencet3)
+
+
+#Info for L ki4
+[globalChordCountT4] = addpairs(iset16pairs,iset17pairs,iset18pairs,iset19pairs,iset20pairs,iset1pairs,iset2pairs,iset3pairs,iset4pairs,iset5pairs,iset6pairs,iset7pairs,iset8pairs,iset9pairs,iset10pairs)
+[totalPairWeightsT4] = totalWeights(globalChordCountT4)
+
+#Info for G
+[globalBigramCountT4] = addbigrams(iset16bigrams,iset17bigrams,iset18bigrams,iset19bigrams,iset20bigrams,iset1bigrams,iset2bigrams,iset3bigrams,iset4bigrams,iset5bigrams,iset6bigrams,iset7bigrams,iset8bigrams,iset9bigrams,iset10bigrams)
+[totalBigramWeightsT4] = totalBigrams(globalBigramCountT4)
+
+#Train L and G and compose for T
+it4 = getLfst(totalPairWeightsT4,totalBigramWeightsT4)
+#
+#Get M and transpose with T for C and compute shortest path (Sequence)
+[melodytestt4] = testmelody(melset11,melset12,melset13,melset14,melset15,ichordset11,ichordset12,ichordset13,ichordset14,ichordset15)
+[mt4,ct4,sequencet4] = getmfst(melodytestt4,it4)
+#
+##Seggested Sequence plus Real Chords for K1
+k4sequencei = getchordsequence(sequencet4)
+
+
+[k1truechordsequence1] = realchords(melset16,ichordset16,melset17,ichordset17,melset18,ichordset18,melset19,ichordset19,melset20,ichordset20)
+[k2truechordsequence1] = realchords(melset1,ichordset1,melset2,ichordset2,melset3,ichordset3,melset4,ichordset4,melset5,ichordset5)
+[k3truechordsequence1] = realchords(melset6,ichordset6,melset7,ichordset7,melset8,ichordset8,melset9,ichordset9,melset10,ichordset10)
+[k4truechordsequence1] = realchords(melset11,ichordset11,melset12,ichordset12,melset13,ichordset13,melset14,ichordset14,melset15,ichordset15)
+#
+
+iHits = accuracyi(k1sequencei,k1truechordsequence1,k2sequencei,k2truechordsequence1,k2sequencei,k3truechordsequence1,k4sequencei,k4truechordsequence1)
+iHits2 = accuracy2i(k1sequencei,k1truechordsequence1,k2sequencei,k2truechordsequence1,k3sequencei,k3truechordsequence1,k4sequencei,k4truechordsequence1)
+
+iharmonicdissonance = harmdiss(melodytestt1,k1sequencei)+harmdiss(melodytestt1,k1sequencei)+harmdiss(melodytestt1,k1sequencei)+harmdiss(melodytestt1,k1sequencei)
+
+idissonance = np.array(iharmonicdissonance)
+iMean = np.mean(idissonance)
+iStdDeviation = np.std(idissonance)
+iAverage = np.average(idissonance)
+#
+##########3
+#Hits = accuracy(k1sequence,k1truechordsequence1,k1truechordsequence2,k2sequence,k2truechordsequence1,k2truechordsequence2,k3sequence,k3truechordsequence1,k3truechordsequence2,k4sequence,k4truechordsequence1,k4truechordsequence2)
+#Hitset2222 = accuracy2(k1sequencei,k1truechordsequence1,k1truechordsequence2,k2sequencei,k2truechordsequence1,k2truechordsequence2,k3sequencei,k3truechordsequence1,k3truechordsequence2,k4sequencei,k4truechordsequence1,k4truechordsequence2)
+#
+#harmonicdissonance = harmdiss(melodytest2+melodytest2+melodytest3+melodytest4,k1sequence+k3sequence+k3sequence+k3sequence)
+#
+#dissonance = np.array(harmonicdissonance)
+#Mean = np.mean(dissonance)
+#StdDeviation = np.std(dissonance)
+#Average = np.average(dissonance)
+#
+##Set 1
+#Hitset2with1 = accuracy2(k1sequencei,k1truechordsequence1,k1truechordsequence1,k2sequencei,k2truechordsequence1,k2truechordsequence1,k3sequencei,k3truechordsequence1,k3truechordsequence1,k4sequencei,k4truechordsequence1,k4truechordsequence1)
+#[melodyset1n1] = testmelody(melset16,melset17,melset18,melset19,melset20,chordset16,chordset17,chordset18,chordset19,chordset20)
+#[melodyset1n2] = testmelody(melset1,melset2,melset3,melset4,melset5,chordset1,chordset2,chordset3,chordset4,chordset5)
+#[melodyset1n3] = testmelody(melset6,melset7,melset8,melset9,melset10,chordset6,chordset7,chordset8,chordset9,chordset10) 
+#[melodyset1n4] = testmelody(melset11,melset12,melset13,melset14,melset15,chordset11,chordset12,chordset13,chordset14,chordset15)
+#
+#harmonicdissonanceset1with2 = harmdiss(melodyset1n1+melodyset1n2+melodyset1n3+melodyset1n4,k1truechordsequence1+k2truechordsequence1+k3truechordsequence1+k4truechordsequence1)
+#dissonanceset1 = np.array(harmonicdissonanceset1)
+#Meanset1 = np.mean(dissonanceset1)
+#StdDeviationset1 = np.std(dissonanceset1)
+#Averageset1 = np.average(dissonanceset1)
+##
+##Hits set 2
+#Hitset1with2 = accuracy2(k1sequencei,k1truechordsequence2,k1truechordsequence2,k2sequencei,k2truechordsequence2,k2truechordsequence2,k3sequencei,k3truechordsequence2,k3truechordsequence2,k4sequencei,k4truechordsequence2,k4truechordsequence2)
+#[melodyset2n1] = testmelody(melset16,melset17,melset18,melset19,melset20,chordset16,chordset17,chordset18,chordset19,chordset20)
+#[melodyset2n2] = testmelody(melset1,melset2,melset3,melset4,melset5,chordset1,chordset2,chordset3,chordset4,chordset5)
+#[melodyset2n3] = testmelody(melset6,melset7,melset8,melset9,melset10,chordset6,chordset7,chordset8,chordset9,chordset10) 
+#[melodyset2n4] = testmelody(melset11,melset12,melset13,melset14,melset15,chordset11,chordset12,chordset13,chordset14,chordset15)
+#
+#harmonicdissonanceset1with2 = harmdiss(melodyset2n1+melodyset2n2+melodyset2n3+melodyset2n4,k1truechordsequence2+k2truechordsequence2+k3truechordsequence2+k4truechordsequence2)
+#dissonanceset1with2 = np.array(harmonicdissonanceset1with2)
+#Meanset2 = np.mean(dissonanceset1with2)
+#StdDeviationset2 = np.std(dissonanceset1with2)
+#Averageset2 = np.average(dissonanceset1with2)

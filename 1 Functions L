@@ -1,0 +1,764 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Nov  3 01:34:05 2018
+
+@author: jorgeacostadelape
+"""
+import os
+import numpy as np
+import pywrapfst as fst
+#def ibigramcount(melset,chordset):
+#     n=0
+#     m=0
+#     globalpairs = []
+#     globalcounter = []
+#     notes = []
+#     chords1 = []
+#
+#     while n < len(melset):
+#          [notes,chords1] = getipairings(melset[n],chordset[m],chordset[m])
+#          [bigramslabel,bigramscounter] = countIbigrams(chords1)
+#          n += 1
+#          m += 2
+#    
+#     return[bigramslabel,bigramscounter]
+
+def totalWeights(globalChordCount):
+    totalWeights = []
+    i = 0
+    noteSum = sum(globalChordCount)
+    noteSum = float(noteSum)
+    while i < len(globalChordCount):
+        totalWeights.append(globalChordCount[i]/noteSum)
+        i+=1
+    return[globalChordCount]
+    
+def ibigramcount(melset,chordset):
+    
+     n=0
+     m=0
+     globalpairs = []
+     globalcounter = []
+     globalnotes = []
+     notes = []
+     chords1 = []
+
+     while n < len(melset):
+          [notes,chords1] = getIpairings(melset[n],chordset[n])
+          [bigramslabel,bigramscounter] = countIbigrams(chords1)
+          n += 1
+
+     return[bigramslabel,bigramscounter]
+
+def addpairs(setpairs1,setpairs2,setpairs3,setpairs4,setpairs5,setpairs6,setpairs7,setpairs8,setpairs9,setpairs10,setpairs11,setpairs12,setpairs13,setpairs14,setpairs15):
+    globalcount = []
+    i = 0
+    n = 0
+    while i < len(setpairs1):
+        n = setpairs1[i]+setpairs2[i]+setpairs3[i]+setpairs4[i]+setpairs5[i]+setpairs6[i]+setpairs7[i]+setpairs8[i]+setpairs9[i]+setpairs10[i]+setpairs11[i]+setpairs12[i]+setpairs13[i]+setpairs14[i]+setpairs15[i]
+        globalcount.append(n)
+        i += 1
+    
+    return [globalcount]
+
+
+def addbigrams(set1bigrams,set2bigrams,set3bigrams,set4bigrams,set5bigrams,set6bigrams,set7bigrams,set8bigrams,set9bigrams,set10bigrams,set11bigrams,set12bigrams,set13bigrams,set14bigrams,set15bigrams):
+    globalbcount = []
+    i = 0
+    n = 0
+    while i < len(set1bigrams):
+        n = set1bigrams[i]+set2bigrams[i]+set3bigrams[i]+set4bigrams[i]+set5bigrams[i]+set6bigrams[i]+set7bigrams[i]+set8bigrams[i]+set9bigrams[i]+set10bigrams[i]+set11bigrams[i]+set12bigrams[i]+set13bigrams[i]+set14bigrams[i]+set15bigrams[i]
+        globalbcount.append(n)
+        i += 1
+    return [globalbcount]
+
+def totalBigrams(globalBigramCount):
+    bigramSum = sum(globalBigramCount)
+    bigramSum = float(bigramSum)
+    totalBigramWeights = []
+    i = 0
+    while i < len(globalBigramCount):
+        totalBigramWeights.append(globalBigramCount[i]/bigramSum)
+        i+=1
+    return [globalBigramCount]
+
+def testmelody(melset1,melset2,melset3,melset4,melset5,chordset1,chordset2,chordset3,chordset4,chordset5):
+    melodytotest = []
+    globalmelody = []
+    truechords1 = []
+    truechords2 = []
+    tc1 = []
+    tc2 = []
+   
+    [melodytotest,truechords1,truechords2]=liweights(melset1,chordset1)
+    for i in range(len(melodytotest)):
+        for n in range(len(melodytotest[i])):
+            globalmelody.append(melodytotest[i][n])
+
+    [melodytotest,truechords1,truechords2]=liweights(melset2,chordset2)
+    for i in range(len(melodytotest)):
+        for n in range(len(melodytotest[i])):
+            globalmelody.append(melodytotest[i][n])
+            
+    [melodytotest,truechords1,truechords2]=liweights(melset3,chordset3)
+    for i in range(len(melodytotest)):
+        for n in range(len(melodytotest[i])):
+            globalmelody.append(melodytotest[i][n])
+            
+    [melodytotest,truechords1,truechords2]=liweights(melset4,chordset4)
+    for i in range(len(melodytotest)):
+        for n in range(len(melodytotest[i])):
+            globalmelody.append(melodytotest[i][n])
+
+    [melodytotest,truechords1,truechords2]=liweights(melset5,chordset5)
+    for i in range(len(melodytotest)):
+        for n in range(len(melodytotest[i])):
+            globalmelody.append(melodytotest[i][n])
+            
+    for i in range(len(globalmelody)):
+        globalmelody[i] = int(globalmelody[i])
+ 
+    return [globalmelody]
+#
+    
+def realchords(melset1,chordset1,melset2,chordset2,melset3,chordset3,melset4,chordset4,melset5,chordset5):
+     i=0
+     n=0
+     m=0
+     notes = []
+     chords1 = []
+
+     realchords1 = []
+
+     while n < len(melset1):
+         [notes,chords1] = getIpairings(melset1[n], chordset1[n])
+         for i in range(len(chords1)):
+             realchords1.append(chords1[i])
+             i+=1
+         n +=1
+         m +=2
+  
+     n=0
+     m=0
+     while n < len(melset2):
+         [notes,chords1] = getIpairings(melset2[n], chordset2[n])
+         
+         for i in range(len(chords1)):
+             realchords1.append(chords1[i])
+             i+=1
+         n +=1
+         m +=2
+     n=0
+     m=0
+     while n < len(melset3):
+         [notes,chords1] = getIpairings(melset3[n], chordset3[n])
+         i = 0
+         for i in range(len(chords1)):
+             realchords1.append(chords1[i])
+             i+=1
+         n +=1
+         m +=2
+     n=0
+     m=0
+     while n < len(melset4):
+         [notes,chords1] = getIpairings(melset4[n], chordset4[n])
+         i = 0
+         for i in range(len(chords1)):
+             realchords1.append(chords1[i])
+             
+         n +=1
+         m +=2          
+     n=0
+     m=0
+     while n < len(melset5):
+         [notes,chords1] = getIpairings(melset5[n], chordset5[n])
+         
+         for i in range(len(chords1)):
+             realchords1.append(chords1[i])
+         
+             i+=1
+         n +=1
+         m +=2         
+        
+     return[realchords1]
+
+
+
+def getchordsequence(sequence):
+    chords = []
+    symbols = chords
+
+    for state in sequence.states():
+        for arc in sequence.arcs(state):
+            chords.append(arc.olabel)
+    chords.append(0)
+    chords = list(reversed(chords))
+
+    for i in range(len(chords)):
+        if chords[i] == 0:
+            symbols[i] = 'I'
+        if chords[i] == 1:
+            symbols[i] = 'I#'
+        if chords[i] == 2:
+            symbols[i] = 'II'
+        if chords[i] == 3:
+            symbols[i] = 'bIII'
+        if chords[i] == 4:
+            symbols[i] = 'III'
+        if chords[i] == 5:
+            symbols[i] = 'IV'
+        if chords[i] == 6:
+            symbols[i] = '#IV'
+        if chords[i] == 7:
+            symbols[i] = 'V'
+        if chords[i] == 8:
+            symbols[i] = 'bVI'
+        if chords[i] == 9:
+            symbols[i] = 'VI'
+        if chords[i] == 10:
+            symbols[i] = 'bVII'
+        if chords[i] == 11:
+            symbols[i] = 'VII'
+        if chords[i] == 12:
+            symbols[i] = 'i'
+        if chords[i] == 13:
+            symbols[i] = 'i#'
+        if chords[i] == 14:
+            symbols[i] = 'ii'
+        if chords[i] == 15:
+            symbols[i] = 'biii'
+        if chords[i] == 16:
+            symbols[i] = 'iii'
+        if chords[i] == 17:
+            symbols[i] = 'iv'
+        if chords[i] == 18:
+            symbols[i] = '#iv'
+        if chords[i] == 19:
+            symbols[i] = 'v'
+        if chords[i] == 20:
+            symbols[i] = 'bvi'
+        if chords[i] == 21:
+            symbols[i] = 'vi'
+        if chords[i] == 22:
+            symbols[i] = 'bvii'
+        if chords[i] == 23:
+            symbols[i] = 'vii'
+        if chords[i] == 24:
+            symbols[i] = 'io'
+        if chords[i] == 25:
+            symbols[i] = 'i#o'
+        if chords[i] == 26:
+            symbols[i] = 'iio'
+        if chords[i] == 27:
+            symbols[i] = 'iiibo'
+        if chords[i] == 28:
+            symbols[i] = 'iiio'
+        if chords[i] == 29:
+            symbols[i] = 'ivo'
+        if chords[i] == 30:
+            symbols[i] = '#ivo'
+        if chords[i] == 31:
+            symbols[i] = 'vo'
+        if chords[i] == 32:
+            symbols[i] = 'bvio'
+        if chords[i] == 33:
+            symbols[i] = 'vio'
+        if chords[i] == 34:
+            symbols[i] = 'bviio'
+        if chords[i] == 35:
+            symbols[i] = 'viio'
+        if chords[i] == 36:
+            symbols[i] = 'Other Chord'
+            
+    return (symbols)
+
+def accuracy(k1sequence,k1truechordsequence1,k2sequence,k2truechordsequence1,k3sequence,k3truechordsequence1,k4sequence,k4truechordsequence1):
+    hits= 0.0
+     
+    for i in range(len(k1sequence)):
+        if k1sequence[i] == k1truechordsequence1[i]:
+            hits+=1
+        if k1sequence[i] == k1truechordsequence1[i]:
+            hits+=1
+    for i in range(len(k2sequence)):
+        if k2sequence[i] == k2truechordsequence1[i]:
+            hits+=1
+        if k2sequence[i] == k2truechordsequence1[i]:
+            hits+=1 
+    for i in range(len(k3sequence)):
+        if k3sequence[i] == k3truechordsequence1[i]:
+            hits+=1
+        if k3sequence[i] == k3truechordsequence1[i]:
+            hits+=1 
+    for i in range(len(k4sequence)):
+        if k4sequence[i] == k4truechordsequence1[i]:
+            hits+=1
+        if k4sequence[i] == k4truechordsequence1[i]:
+            hits+=1 
+
+    totalchords = len(k1sequence)+len(k2sequence)+len(k3sequence)+len(k4sequence)
+    accuracy = hits/(totalchords*2) *100
+    return accuracy
+
+def accuracy2(k1sequence,k1truechordsequence1,k1truechordsequence2,k2sequence,k2truechordsequence1,k2truechordsequence2,k3sequence,k3truechordsequence1,k3truechordsequence2,k4sequence,k4truechordsequence1,k4truechordsequence2):
+    hits=0.0
+    notechords = k1truechordsequence1+k2truechordsequence1+k3truechordsequence1+k4truechordsequence1+k1truechordsequence2+k2truechordsequence2+k3truechordsequence2+k4truechordsequence2
+    totalsequence = k1sequence+k2sequence+k3sequence+k4sequence+k1sequence+k2sequence+k3sequence+k4sequence
+   
+    
+    for c in range(len(notechords)):
+        if (notechords[c] == 'I' or notechords[c]=='I6' or  notechords[c]=='I64' or  notechords[c]=='I7' or  notechords[c]=='Id9' or notechords[c]=='Id7' or notechords[c]=='V/IV' or notechords[c]=='V42/IV' or notechords[c]=='V43/IV' or notechords[c]=='V65/IV' or notechords[c]=='V7/IV' or notechords[c] == 'V11'):
+            notechords[c] = 'I'
+        if (notechords[c] == 'I#' or notechords[c] == 'I#9' or notechords[c] == 'bII' or notechords[c] == 'bII7'):
+            notechords[c] = 'I#'
+        if (notechords[c] == 'II' or notechords[c] == 'II6' or notechords[c] == 'II65' or notechords[c] == 'II7' or notechords[c] == 'IId7' or notechords[c] == 'IV/vi' or notechords[c] == 'V6/V' or notechords[c] == 'V6/v' or notechords[c] == 'V65/V' or notechords[c] == 'V7/V' or notechords[c] == 'V/V'):
+            notechords[c] = 'II'
+        if (notechords[c] == 'bIII' or notechords[c] == 'V/bVI' or notechords[c] == 'bIII6' or notechords[c] == 'bIII64' or notechords[c] == 'bIII7' or notechords[c] == 'bIIId7' or notechords[c] == 'bVId7/V'):
+            notechords[c] = 'bIII'
+        if (notechords[c] == 'III' or notechords[c] == 'III64' or notechords[c] == 'V/vi' or notechords[c] == 'V6/vi' or notechords[c] == 'V65/vi' or notechords[c] == 'V7/vi'):
+            notechords[c] = 'III'
+        if (notechords[c] == 'IV' or notechords[c] == 'IV6' or notechords[c] == 'IV64' or notechords[c] == 'IV65' or notechords[c] == 'IV7' or notechords[c] == 'IV9' or notechords[c] == 'IVd43' or notechords[c] == 'IVd7' or notechords[c] == 'V/VII'):
+            notechords[c] = 'IV'
+        if (notechords[c] == '#IV' or notechords[c] == 'bV' or notechords[c] == 'bVb5'):
+            notechords[c] = '#IV'
+        if (notechords[c] == 'V' or notechords[c] == 'V42' or notechords[c] == 'V43' or notechords[c] == 'V6' or notechords[c] == 'V64' or notechords[c] == 'V65' or notechords[c] == 'V7' or notechords[c] == 'V7b9' or notechords[c] == 'V9' or notechords[c] == 'V+11' ):
+            notechords[c] = 'V'
+        if (notechords[c] == 'bVI' or notechords[c] == 'bVI6' or notechords[c] == 'bVI7' or notechords[c] == 'bVIb5' or notechords[c] == 'bVId7'):
+            notechords[c] = 'bVI'
+        if (notechords[c] == 'VI' or notechords[c] == 'V/ii' or notechords[c] == 'V7/ii' or notechords[c] == 'V7/II' or notechords[c] == 'V7/II' or notechords[c] == 'VI7' or notechords[c] == 'VId9'):
+            notechords[c] = 'VI'
+        if (notechords[c] == 'bVII' or notechords[c] == 'V/bIII' or notechords[c] == 'V7/bIII' or notechords[c] == 'bVII6' or notechords[c] == 'bVII64' or notechords[c] == 'bVIId7' or notechords[c] == 'bVId7/ii' or notechords[c] == 'bVI64/ii'):
+            notechords[c] = 'bVII'
+        if (notechords[c] == 'VII' or notechords[c] == 'V7/III' or notechords[c] == 'V/iii' or notechords[c] == 'IV/IV' or notechords[c] == 'IV64/IV' or notechords[c] == 'V7/iii' or notechords[c] == 'V7/III'):
+            notechords[c] = 'VII'
+        
+        if (notechords[c] == 'i' or notechords[c] == 'i42' or notechords[c] == 'i6' or notechords[c] == 'i7' or notechords[c] == 'i9' or notechords[c] == 'ii7/bVII'):
+            notechords[c] = 'i'
+        if (notechords[c] == 'ii' or notechords[c] == 'ii6' or notechords[c] == 'ii65' or notechords[c] == 'ii7' or notechords[c] == 'ii9' or notechords[c] == 'iih42' or notechords[c] == 'iih43'):
+            notechords[c] ='ii'
+        if (notechords[c] == 'biii' or notechords[c] == 'biii7'):
+            notechords[c] = 'biii'
+        if (notechords[c] == 'iii' or notechords[c] == 'iii6' or notechords[c] == 'iii64' or notechords[c] == 'iii7'):
+            notechords[c] = 'iii'
+        if (notechords[c] == 'iv' or notechords[c] == 'iv64' or notechords[c] == 'iv65' or notechords[c] == 'iv7' or notechords[c] == 'v11'):
+            notechords[c] = 'iv'
+        if (notechords[c] == 'v' or notechords[c] == 'iv/ii' or notechords[c] == 'iv6/ii' or notechords[c] == 'ii/IV' or notechords[c] == 'v6' or notechords[c] == 'v64' or notechords[c] == 'v65' or notechords[c] == 'v7'):
+            notechords[c] = 'v'
+        if (notechords[c] == 'vi' or notechords[c] == 'ii/V' or notechords[c] == 'vi6' or notechords[c] == 'vi64' or notechords[c] == 'vi7' or notechords[c] == 'vi9'):
+            notechords[c] = 'vi'
+        if (notechords[c] == 'bvii' or notechords[c] == 'bvii7' or notechords[c] == 'ii7/bVI'):
+            notechords[c] = 'bvii'
+        if (notechords[c] == 'vii' or notechords[c] == 'ii7/vi' or notechords[c] == 'vii64' or notechords[c] == 'iii6/V'):
+            notechords[c] = 'vii'
+       
+        if (notechords[c] == 'io' or notechords[c] == 'viio/ii' or notechords[c] == 'viix7/ii'):
+            notechords[c] = 'io'
+        if (notechords[c] == 'iio' or notechords[c] == 'iih65' or notechords[c] == 'iih7' or notechords[c] == 'iio7'):
+            notechords[c] = 'iio'
+        if (notechords[c] == 'iiio' or notechords[c] == 'iih65/ii' or notechords[c] == 'iih43/ii'):
+            notechords[c] = 'iiio'
+        if (notechords[c] == 'ivo' or notechords[c] == 'viih7/V' or notechords[c] == 'viio/V' or notechords[c] == 'viix42/V' or notechords[c] == 'viix43/V' or notechords[c] == 'viix7/V'):
+            notechords[c] = 'ivo'
+        if (notechords[c] == 'vo' or notechords[c] == 'viix7/vi'):
+            notechords[c] = 'vo'
+        if (notechords[c] == 'vio' or notechords[c] == 'vih7' or notechords[c] == 'iih7/V'):
+            notechords[c] = 'vio'
+        if (notechords[c] == 'viio' or notechords[c] == 'iih7/vi' or notechords[c] == 'viix42' or notechords[c] == 'viih7'):
+            notechords[c] = 'viio'
+            
+    for i in range(len(notechords)):
+        
+        if notechords[i] == totalsequence[i]:
+            hits+=1
+            
+    totalchords = len(totalsequence)
+    accuracy2 = hits/totalchords * 100
+    
+    return accuracy2
+
+def accuracyi(k1sequence,k1truechordsequence1,k2sequence,k2truechordsequence1,k3sequence,k3truechordsequence1,k4sequence,k4truechordsequence1):
+    hits= 0.0
+     
+    for i in range(len(k1sequence)):
+        if k1sequence[i] == k1truechordsequence1[i]:
+            hits+=1
+
+    for i in range(len(k2sequence)):
+        if k2sequence[i] == k2truechordsequence1[i]:
+            hits+=1
+
+    for i in range(len(k3sequence)):
+        if k3sequence[i] == k3truechordsequence1[i]:
+            hits+=1
+
+    for i in range(len(k4sequence)):
+        if k4sequence[i] == k4truechordsequence1[i]:
+            hits+=1
+
+    totalchords = len(k1sequence)+len(k2sequence)+len(k3sequence)+len(k4sequence)
+    accuracy = hits/totalchords *100
+    return accuracy
+
+def accuracy2i(k1sequence,k1truechordsequence1,k2sequence,k2truechordsequence1,k3sequence,k3truechordsequence1,k4sequence,k4truechordsequence1):
+    hits=0.0
+    notechords = k1truechordsequence1+k2truechordsequence1+k3truechordsequence1+k4truechordsequence1
+    totalsequence = k1sequence+k2sequence+k3sequence+k4sequence
+   
+    
+    for c in range(len(notechords)):
+        if (notechords[c] == 'I' or notechords[c]=='I6' or  notechords[c]=='I64' or  notechords[c]=='I7' or  notechords[c]=='Id9' or notechords[c]=='Id7' or notechords[c]=='V/IV' or notechords[c]=='V42/IV' or notechords[c]=='V43/IV' or notechords[c]=='V65/IV' or notechords[c]=='V7/IV' or notechords[c] == 'V11'):
+            notechords[c] = 'I'
+        if (notechords[c] == 'I#' or notechords[c] == 'I#9' or notechords[c] == 'bII' or notechords[c] == 'bII7'):
+            notechords[c] = 'I#'
+        if (notechords[c] == 'II' or notechords[c] == 'II6' or notechords[c] == 'II65' or notechords[c] == 'II7' or notechords[c] == 'IId7' or notechords[c] == 'IV/vi' or notechords[c] == 'V6/V' or notechords[c] == 'V6/v' or notechords[c] == 'V65/V' or notechords[c] == 'V7/V' or notechords[c] == 'V/V'):
+            notechords[c] = 'II'
+        if (notechords[c] == 'bIII' or notechords[c] == 'V/bVI' or notechords[c] == 'bIII6' or notechords[c] == 'bIII64' or notechords[c] == 'bIII7' or notechords[c] == 'bIIId7' or notechords[c] == 'bVId7/V'):
+            notechords[c] = 'bIII'
+        if (notechords[c] == 'III' or notechords[c] == 'III64' or notechords[c] == 'V/vi' or notechords[c] == 'V6/vi' or notechords[c] == 'V65/vi' or notechords[c] == 'V7/vi'):
+            notechords[c] = 'III'
+        if (notechords[c] == 'IV' or notechords[c] == 'IV6' or notechords[c] == 'IV64' or notechords[c] == 'IV65' or notechords[c] == 'IV7' or notechords[c] == 'IV9' or notechords[c] == 'IVd43' or notechords[c] == 'IVd7' or notechords[c] == 'V/VII'):
+            notechords[c] = 'IV'
+        if (notechords[c] == '#IV' or notechords[c] == 'bV' or notechords[c] == 'bVb5'):
+            notechords[c] = '#IV'
+        if (notechords[c] == 'V' or notechords[c] == 'V42' or notechords[c] == 'V43' or notechords[c] == 'V6' or notechords[c] == 'V64' or notechords[c] == 'V65' or notechords[c] == 'V7' or notechords[c] == 'V7b9' or notechords[c] == 'V9' or notechords[c] == 'V+11' ):
+            notechords[c] = 'V'
+        if (notechords[c] == 'bVI' or notechords[c] == 'bVI6' or notechords[c] == 'bVI7' or notechords[c] == 'bVIb5' or notechords[c] == 'bVId7'):
+            notechords[c] = 'bVI'
+        if (notechords[c] == 'VI' or notechords[c] == 'V/ii' or notechords[c] == 'V7/ii' or notechords[c] == 'V7/II' or notechords[c] == 'V7/II' or notechords[c] == 'VI7' or notechords[c] == 'VId9'):
+            notechords[c] = 'VI'
+        if (notechords[c] == 'bVII' or notechords[c] == 'V/bIII' or notechords[c] == 'V7/bIII' or notechords[c] == 'bVII6' or notechords[c] == 'bVII64' or notechords[c] == 'bVIId7' or notechords[c] == 'bVId7/ii' or notechords[c] == 'bVI64/ii'):
+            notechords[c] = 'bVII'
+        if (notechords[c] == 'VII' or notechords[c] == 'V7/III' or notechords[c] == 'V/iii' or notechords[c] == 'IV/IV' or notechords[c] == 'IV64/IV' or notechords[c] == 'V7/iii' or notechords[c] == 'V7/III'):
+            notechords[c] = 'VII'
+        
+        if (notechords[c] == 'i' or notechords[c] == 'i42' or notechords[c] == 'i6' or notechords[c] == 'i7' or notechords[c] == 'i9' or notechords[c] == 'ii7/bVII'):
+            notechords[c] = 'i'
+        if (notechords[c] == 'ii' or notechords[c] == 'ii6' or notechords[c] == 'ii65' or notechords[c] == 'ii7' or notechords[c] == 'ii9' or notechords[c] == 'iih42' or notechords[c] == 'iih43'):
+            notechords[c] ='ii'
+        if (notechords[c] == 'biii' or notechords[c] == 'biii7'):
+            notechords[c] = 'biii'
+        if (notechords[c] == 'iii' or notechords[c] == 'iii6' or notechords[c] == 'iii64' or notechords[c] == 'iii7'):
+            notechords[c] = 'iii'
+        if (notechords[c] == 'iv' or notechords[c] == 'iv64' or notechords[c] == 'iv65' or notechords[c] == 'iv7' or notechords[c] == 'v11'):
+            notechords[c] = 'iv'
+        if (notechords[c] == 'v' or notechords[c] == 'iv/ii' or notechords[c] == 'iv6/ii' or notechords[c] == 'ii/IV' or notechords[c] == 'v6' or notechords[c] == 'v64' or notechords[c] == 'v65' or notechords[c] == 'v7'):
+            notechords[c] = 'v'
+        if (notechords[c] == 'vi' or notechords[c] == 'ii/V' or notechords[c] == 'vi6' or notechords[c] == 'vi64' or notechords[c] == 'vi7' or notechords[c] == 'vi9'):
+            notechords[c] = 'vi'
+        if (notechords[c] == 'bvii' or notechords[c] == 'bvii7' or notechords[c] == 'ii7/bVI'):
+            notechords[c] = 'bvii'
+        if (notechords[c] == 'vii' or notechords[c] == 'ii7/vi' or notechords[c] == 'vii64' or notechords[c] == 'iii6/V'):
+            notechords[c] = 'vii'
+       
+        if (notechords[c] == 'io' or notechords[c] == 'viio/ii' or notechords[c] == 'viix7/ii'):
+            notechords[c] = 'io'
+        if (notechords[c] == 'iio' or notechords[c] == 'iih65' or notechords[c] == 'iih7' or notechords[c] == 'iio7'):
+            notechords[c] = 'iio'
+        if (notechords[c] == 'iiio' or notechords[c] == 'iih65/ii' or notechords[c] == 'iih43/ii'):
+            notechords[c] = 'iiio'
+        if (notechords[c] == 'ivo' or notechords[c] == 'viih7/V' or notechords[c] == 'viio/V' or notechords[c] == 'viix42/V' or notechords[c] == 'viix43/V' or notechords[c] == 'viix7/V'):
+            notechords[c] = 'ivo'
+        if (notechords[c] == 'vo' or notechords[c] == 'viix7/vi'):
+            notechords[c] = 'vo'
+        if (notechords[c] == 'vio' or notechords[c] == 'vih7' or notechords[c] == 'iih7/V'):
+            notechords[c] = 'vio'
+        if (notechords[c] == 'viio' or notechords[c] == 'iih7/vi' or notechords[c] == 'viix42' or notechords[c] == 'viih7'):
+            notechords[c] = 'viio'
+            
+    for i in range(len(notechords)):
+        
+        if notechords[i] == totalsequence[i]:
+            hits+=1
+            
+    totalchords = len(totalsequence)
+    accuracy2 = hits/totalchords * 100
+    
+    return accuracy2
+
+def harmdiss(melodytotest,sequence):
+    harmdiss = []
+    mayordiss = 36
+    minordiss = 36
+    dimdiss = 80
+    i=0
+#0Majors
+    for i in range(len(melodytotest)):
+        if melodytotest[i] == 0 and sequence[i] == 'I':
+            harmdiss.append(60/36.00)
+        if melodytotest[i] == 0 and sequence[i] == 'II':
+            harmdiss.append(134/36.00)
+        if melodytotest[i] == 0 and sequence[i] == 'IIIb':
+            harmdiss.append(160/36.00)
+        if melodytotest[i] == 0 and sequence[i] == 'VIIb':
+            harmdiss.append(212/36.00)
+        if melodytotest[i] == 0 and sequence[i] == 'VII':
+            harmdiss.append(209/36.00)
+#0Minors
+        if melodytotest[i] == 0 and sequence[i] == 'i':
+            harmdiss.append(57/36.00)
+        if melodytotest[i] == 0 and sequence[i] == 'vii':
+            harmdiss.append(209/36.00)
+        if melodytotest[i] == 0 and sequence[i] == 'viib':
+            harmdiss.append(212/36.00)
+#0dim
+        if melodytotest[i] == 0 and sequence[i] == 'viidim':
+            harmdiss.append(209/80.00)
+
+#1Majors
+    for i in range(len(melodytotest)):
+        if melodytotest[i] == 1 and sequence[i] == 'I':
+            harmdiss.append(191/36.00)
+        if melodytotest[i] == 1 and sequence[i] == 'II':
+            harmdiss.append(144/36.00)
+        if melodytotest[i] == 1 and sequence[i] == 'IIIb':
+            harmdiss.append(131/36.00)
+        if melodytotest[i] == 1 and sequence[i] == 'VIIb':
+            harmdiss.append(150/36.00)
+        if melodytotest[i] == 1 and sequence[i] == 'VII':
+            harmdiss.append(90/36.00)
+#1Minors
+        if melodytotest[i] == 1 and sequence[i] == 'i':
+            harmdiss.append(206/36.00)
+        if melodytotest[i] == 1 and sequence[i] == 'vii':
+            harmdiss.append(165/36.00)
+        if melodytotest[i] == 1 and sequence[i] == 'viib':
+            harmdiss.append(63/36.00)
+#1dim
+        if melodytotest[i] == 1 and sequence[i] == 'viidim':
+            harmdiss.append(212/80.00)
+
+#2Majors
+    for i in range(len(melodytotest)):
+        if melodytotest[i] == 2 and sequence[i] == 'I':
+            harmdiss.append(105/36.00)
+        if melodytotest[i] == 2 and sequence[i] == 'II':
+            harmdiss.append(57/36.00)
+        if melodytotest[i] == 2 and sequence[i] == 'IIIb':
+            harmdiss.append(147/36.00)
+        if melodytotest[i] == 2 and sequence[i] == 'VIIb':
+            harmdiss.append(63/36.00)
+        if melodytotest[i] == 2 and sequence[i] == 'VII':
+            harmdiss.append(153/36.00)
+#2Minors
+        if melodytotest[i] == 2 and sequence[i] == 'i':
+            harmdiss.append(165/36.00)
+        if melodytotest[i] == 2 and sequence[i] == 'vii':
+            harmdiss.append(63/36.00)
+        if melodytotest[i] == 2 and sequence[i] == 'viib':
+            harmdiss.append(153/36.00)
+#2dim
+        if melodytotest[i] == 2 and sequence[i] == 'viidim':
+            harmdiss.append(107/80.00)
+            
+#3Majors
+    for i in range(len(melodytotest)):
+        if melodytotest[i] == 3 and sequence[i] == 'I':
+            harmdiss.append(153/36.00)
+        if melodytotest[i] == 3 and sequence[i] == 'II':
+            harmdiss.append(176/36.00)
+        if melodytotest[i] == 3 and sequence[i] == 'IIIb':
+            harmdiss.append(57/36.00)
+        if melodytotest[i] == 3 and sequence[i] == 'VIIb':
+            harmdiss.append(165/36.00)
+        if melodytotest[i] == 3 and sequence[i] == 'VII':
+            harmdiss.append(63/36.00)
+#3Minors
+        if melodytotest[i] == 3 and sequence[i] == 'i':
+            harmdiss.append(63/36.00)
+        if melodytotest[i] == 3 and sequence[i] == 'vii':
+            harmdiss.append(153/36.00)
+        if melodytotest[i] == 3 and sequence[i] == 'viib':
+            harmdiss.append(105/36.00)
+#3dim
+        if melodytotest[i] == 3 and sequence[i] == 'viidim':
+            harmdiss.append(212/80.00)
+            
+
+#4Majors
+    for i in range(len(melodytotest)):
+        if melodytotest[i] == 4 and sequence[i] == 'I':
+            harmdiss.append(63/36.00)
+        if melodytotest[i] == 4 and sequence[i] == 'II':
+            harmdiss.append(105/36.00)
+        if melodytotest[i] == 4 and sequence[i] == 'IIIb':
+            harmdiss.append(206/36.00)
+        if melodytotest[i] == 4 and sequence[i] == 'VIIb':
+            harmdiss.append(206/36.00)
+        if melodytotest[i] == 4 and sequence[i] == 'VII':
+            harmdiss.append(165/36.00)
+#4Minors
+        if melodytotest[i] == 4 and sequence[i] == 'i':
+            harmdiss.append(153/36.00)
+        if melodytotest[i] == 4 and sequence[i] == 'vii':
+            harmdiss.append(191/36.00)
+        if melodytotest[i] == 4 and sequence[i] == 'viib':
+            harmdiss.append(191/36.00)
+#4dim
+        if melodytotest[i] == 4 and sequence[i] == 'viidim':
+            harmdiss.append(209/80.00)
+            
+#5Majors
+    for i in range(len(melodytotest)):
+        if melodytotest[i] == 5 and sequence[i] == 'I':
+            harmdiss.append(165/36.00)
+        if melodytotest[i] == 5 and sequence[i] == 'II':
+            harmdiss.append(153/36.00)
+        if melodytotest[i] == 5 and sequence[i] == 'IIIb':
+            harmdiss.append(105/36.00)
+        if melodytotest[i] == 5 and sequence[i] == 'VIIb':
+            harmdiss.append(60/36.00)
+        if melodytotest[i] == 5 and sequence[i] == 'VII':
+            harmdiss.append(206/36.00)
+#5Minors
+        if melodytotest[i] == 5 and sequence[i] == 'i':
+            harmdiss.append(105/36.00)
+        if melodytotest[i] == 5 and sequence[i] == 'vii':
+            harmdiss.append(191/36.00)
+        if melodytotest[i] == 5 and sequence[i] == 'viib':
+            harmdiss.append(57/36.00)
+#5dim
+        if melodytotest[i] == 5 and sequence[i] == 'viidim':
+            harmdiss.append(185/80.00)
+
+#6Majors
+    for i in range(len(melodytotest)):
+        if melodytotest[i] == 6 and sequence[i] == 'I':
+            harmdiss.append(206/36.00)
+        if melodytotest[i] == 6 and sequence[i] == 'II':
+            harmdiss.append(63/36.00)
+        if melodytotest[i] == 6 and sequence[i] == 'IIIb':
+            harmdiss.append(153/36.00)
+        if melodytotest[i] == 6 and sequence[i] == 'VIIb':
+            harmdiss.append(150/36.00)
+        if melodytotest[i] == 6 and sequence[i] == 'VII':
+            harmdiss.append(60/36.00)
+#6Minors
+        if melodytotest[i] == 6 and sequence[i] == 'i':
+            harmdiss.append(191/36.00)
+        if melodytotest[i] == 6 and sequence[i] == 'vii':
+            harmdiss.append(57/36.00)
+        if melodytotest[i] == 6 and sequence[i] == 'viib':
+            harmdiss.append(144/36.00)
+#6diM
+        if melodytotest[i] == 6 and sequence[i] == 'viidim':
+            harmdiss.append(191/80.00)
+            
+#7Majors
+    for i in range(len(melodytotest)):
+        if melodytotest[i] == 7 and sequence[i] == 'I':
+            harmdiss.append(60/36.00)
+        if melodytotest[i] == 7 and sequence[i] == 'II':
+            harmdiss.append(165/36.00)
+        if melodytotest[i] == 7 and sequence[i] == 'IIIb':
+            harmdiss.append(63/36.00)
+        if melodytotest[i] == 7 and sequence[i] == 'VIIb':
+            harmdiss.append(90/36.00)
+        if melodytotest[i] == 7 and sequence[i] == 'VII':
+            harmdiss.append(150/36.00)
+#7Minors
+        if melodytotest[i] == 7 and sequence[i] == 'i':
+            harmdiss.append(57/36.00)
+        if melodytotest[i] == 7 and sequence[i] == 'vii':
+            harmdiss.append(147/36.00)
+        if melodytotest[i] == 7 and sequence[i] == 'viib':
+            harmdiss.append(131/36.00)
+#7dim
+        if melodytotest[i] == 7 and sequence[i] == 'viidim':
+            harmdiss.append(131/80.00)
+
+#8Majors
+    for i in range(len(melodytotest)):
+        if melodytotest[i] == 8 and sequence[i] == 'I':
+            harmdiss.append(180/36.00)
+        if melodytotest[i] == 8 and sequence[i] == 'II':
+            harmdiss.append(206/36.00)
+        if melodytotest[i] == 8 and sequence[i] == 'IIIb':
+            harmdiss.append(165/36.00)
+        if melodytotest[i] == 8 and sequence[i] == 'VIIb':
+            harmdiss.append(131/36.00)
+        if melodytotest[i] == 8 and sequence[i] == 'VII':
+            harmdiss.append(90/36.00)
+#8Minors
+        if melodytotest[i] == 8 and sequence[i] == 'i':
+            harmdiss.append(147/36.00)
+        if melodytotest[i] == 8 and sequence[i] == 'vii':
+            harmdiss.append(171/36.00)
+        if melodytotest[i] == 8 and sequence[i] == 'viib':
+            harmdiss.append(90/36.00)
+#8dim
+        if melodytotest[i] == 8 and sequence[i] == 'viidim':
+            harmdiss.append(160/80.00)
+
+#9Majors
+    for i in range(len(melodytotest)):
+        if melodytotest[i] == 9 and sequence[i] == 'I':
+            harmdiss.append(87/36.00)
+        if melodytotest[i] == 9 and sequence[i] == 'II':
+            harmdiss.append(60/36.00)
+        if melodytotest[i] == 9 and sequence[i] == 'IIIb':
+            harmdiss.append(246/36.00)
+        if melodytotest[i] == 9 and sequence[i] == 'VIIb':
+            harmdiss.append(147/36.00)
+        if melodytotest[i] == 9 and sequence[i] == 'VII':
+            harmdiss.append(171/36.00)
+#9Minors
+        if melodytotest[i] == 9 and sequence[i] == 'i':
+            harmdiss.append(171/36.00)
+        if melodytotest[i] == 9 and sequence[i] == 'vii':
+            harmdiss.append(93/36.00)
+        if melodytotest[i] == 9 and sequence[i] == 'viib':
+            harmdiss.append(150/36.00)
+#9dim
+        if melodytotest[i] == 9 and sequence[i] == 'viidim':
+            harmdiss.append(131/80.00)
+
+#10Majors
+    for i in range(len(melodytotest)):
+        if melodytotest[i] == 10 and sequence[i] == 'I':
+            harmdiss.append(168/36.00)
+        if melodytotest[i] == 10 and sequence[i] == 'II':
+            harmdiss.append(150/36.00)
+        if melodytotest[i] == 10 and sequence[i] == 'IIIb':
+            harmdiss.append(60/36.00)
+        if melodytotest[i] == 10 and sequence[i] == 'VIIb':
+            harmdiss.append(57/36.00)
+        if melodytotest[i] == 10 and sequence[i] == 'VII':
+            harmdiss.append(144/36.00)
+#10Minors
+        if melodytotest[i] == 10 and sequence[i] == 'i':
+            harmdiss.append(90/36.00)
+        if melodytotest[i] == 10 and sequence[i] == 'vii':
+            harmdiss.append(150/36.00)
+        if melodytotest[i] == 10 and sequence[i] == 'viib':
+            harmdiss.append(60/36.00)
+#10dim
+        if melodytotest[i] == 10 and sequence[i] == 'viidim':
+            harmdiss.append(191/80.00)
+
+#11Majors
+    for i in range(len(melodytotest)):
+        if melodytotest[i] == 11 and sequence[i] == 'I':
+            harmdiss.append(147/36.00)
+        if melodytotest[i] == 11 and sequence[i] == 'II':
+            harmdiss.append(90/36.00)
+        if melodytotest[i] == 2 and sequence[i] == 'IIIb':
+            harmdiss.append(150/36.00)
+        if melodytotest[i] == 11 and sequence[i] == 'VIIb':
+            harmdiss.append(191/36.00)
+        if melodytotest[i] == 11 and sequence[i] == 'VII':
+            harmdiss.append(57/36.00  )
+#11Minors
+        if melodytotest[i] == 11 and sequence[i] == 'i':
+            harmdiss.append(150/36.00)
+        if melodytotest[i] == 2 and sequence[i] == 'vii':
+            harmdiss.append(60/36.00)
+        if melodytotest[i] == 11 and sequence[i] == 'viib':
+            harmdiss.append(206/36.00)
+#11dim
+        if melodytotest[i] == 11 and sequence[i] == 'viidim':
+            harmdiss.append(145/80.00)
+        
+    return harmdiss
+#
+#def globaldissonance(melodytest1,melodytest2,melodytest3,melodytest4,k1sequence,k2sequence,k3sequence,k4sequence):

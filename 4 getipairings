@@ -1,0 +1,75 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Nov  3 01:40:44 2018
+
+@author: jorgeacostadelape
+"""
+def getIpairings (locationmel,locationchords):
+#Melody!
+
+    mel1 = open(locationmel).read().split()
+    notes = []
+    notetime = []
+    counternotes = 3
+    countertime = 1
+
+    
+    while counternotes <= (len(mel1)):
+        notes.append(mel1[counternotes])
+        counternotes = counternotes + 4
+        notetime.append(mel1[countertime])
+        countertime = countertime + 4
+    
+#Chords    
+    m = 0
+    n= 0
+    notechord = []
+
+    chord1 = open(locationchords).read().split()
+    chords = []
+    ctime = []
+    ctime2 = []
+    counterchord = 2
+    counterctime = 1
+
+    chordtimeint = []
+    chordtimeint2 = []
+
+    while counterchord <= (len(chord1)):
+        chords.append(chord1[counterchord])
+        counterchord = counterchord + 7
+        ctime.append(chord1[counterctime])
+        counterctime = counterctime + 7
+    
+
+ 
+    notesint = []
+
+    for item in notes:
+        notesint.append(float(item))
+
+    notetimeint = []
+        
+    for item in notetime:
+        notetimeint.append(float(item))
+                
+    for item in ctime:
+        chordtimeint.append(float(item))
+    
+    for item in ctime2:
+        chordtimeint2.append(float(item))
+    
+    chordtimeint.append(9)
+    
+    while m < len(notes):
+        while n < len(chords):
+            if m == len(notes):
+                break
+            if notetimeint[m] >= chordtimeint[n] and notetimeint[m] < chordtimeint[n+1]:
+                notechord.append(chords[n])
+                m +=1
+            else:
+                n +=1
+
+    return [notes,notechord]
